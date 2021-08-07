@@ -13,36 +13,74 @@ router.get('/' ,async (req,res,next)=>{
     dogsDataRes = dogsDataRes.data
     dogsData = dogsDataRes.map(e =>{
         return e.temperament
-    }) 
-    for(i=0;i<dogsData.length;i++){
+      })
+      
+      
+      
+      
+
+      for(i=0;i<dogsData.length;i++){
   if(dogsData[i] !== undefined){
     testString = dogsData[i].split(",");
-  testString.forEach(e => {
+    testString.forEach(e => {
     allTemperaments.push(e.trim())
 
   })
- }else{
+}else{
     allTemperaments.push("undefined")
   }
 }
  allTemperaments.forEach(element => {
-  if(!noRepeatedTemps.includes(element))
+   if(!noRepeatedTemps.includes(element))
   noRepeatedTemps.push(element)
 }) 
-TempsWithId = noRepeatedTemps.map(element =>{
+
+
+var temperamentsSortFranco = noRepeatedTemps.sort()
+TempsWithIdFranco = temperamentsSortFranco.map(element =>{
     return {
-        id:uuid(),
+      id:uuid(),
         name:element
-    }
+      }
 })
 
 
-    const TemperamentAwaited = await Temperament.bulkCreate(TempsWithId)
-return     res.send(TemperamentAwaited)
-    
+ await Temperament.bulkCreate(TempsWithIdFranco)
+const DBTemperaments = await Temperament.findAll()
+return     res.send(DBTemperaments)
+
 }catch(e){
-console.log(e)
+  console.log(e)
 }
 })
 
+//       const temperamentesArr = 
+//       dogsData.map(el => {
+  //         if (el) {
+    //             return el
+    //         }
+//     }).map(el => {
+  //         if (el) {
+    //             const strings = el.split(', ')
+//             return strings
+//         }
+//     })
+// const temperamentsNoRepeat = []
+
+// for (let arrayList of temperamentesArr) {
+//     if (arrayList) {
+//         for (let temperaments of arrayList) {
+  //             if (temperamentsNoRepeat.indexOf(temperaments) === -1) {
+    //                 temperamentsNoRepeat.push(temperaments)
+//             }
+//         }
+//     }
+// }
+// var temperamentsSortCesar = temperamentsNoRepeat.sort()
+// TempsWithIdCesar = temperamentsSortCesar.map(element =>{
+//     return {
+//         id:uuid(),
+//         name:element
+//       }
+// })
 module.exports = router

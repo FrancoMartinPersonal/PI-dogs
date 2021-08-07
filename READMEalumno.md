@@ -22,7 +22,10 @@
 
    ### 05/08/2021
 -  Temperament added to data base and endpoint to use
-
+-  Dog POST  added to data base and endpoint to use
+   **commit name : all endpoints and databases finished BACKEND** 
+  ### 06/08/2021
+  - consulting database instead return an const from await create
 
 ## observaciones 
  ### 04/08/2021
@@ -32,7 +35,11 @@
   - [ ]revisar excepción de id 35 en https://api.thedogapi.com/v1/breeds
       ** commit name : three firsts endpoints done BACKEND  ** 
   ### 05/08/2021
-  - el get de temperament tarda 2 segundos en cargar, es un tiempo considerable
+  - [x] el get de temperament tarda 2 segundos en cargar, es un tiempo considerable(al final no
+  hubo problemas con la espera, hice pair programming y se llegaron a otras conclusiones pero ninguna
+  tardaba más que otra)
+ **commit name : all endpoints and databases finished BACKEND** 
+  ### 06/08/2021
 
 ## guía
  1. hacer repaso por los plugins y dependencias instaladas
