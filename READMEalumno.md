@@ -26,7 +26,10 @@
    **commit name : all endpoints and databases finished BACKEND** 
   ### 06/08/2021
   - consulting database instead return an const from await create
-
+ **commit name :backend fixed and frontend started**
+ - main and nav added with some details ;)
+   ### 07/08/2021
+  **commit name :main and nav added**
 ## observaciones 
  ### 04/08/2021
     
@@ -39,8 +42,11 @@
   hubo problemas con la espera, hice pair programming y se llegaron a otras conclusiones pero ninguna
   tardaba más que otra)
  **commit name : all endpoints and databases finished BACKEND** 
+ 
   ### 06/08/2021
-
+  **commit name :backend fixed and frontend started**
+   ### 07/08/2021
+  **commit name :main and nav added**
 ## guía
  1. hacer repaso por los plugins y dependencias instaladas
  2. empezar desde backend, y guiar hasta base de datos 
