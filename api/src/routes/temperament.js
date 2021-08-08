@@ -45,7 +45,16 @@ TempsWithIdFranco = temperamentsSortFranco.map(element =>{
 })
 
 
- await Temperament.bulkCreate(TempsWithIdFranco)
+ var DBNoRepeated = await TempsWithIdFranco.forEach(element =>{
+               Temperament.findOrCreate({
+                where:{name:element.name},
+                defaults:{
+                  id:element.id,
+                  name:element.name
+                }
+              })
+
+ })
 const DBTemperaments = await Temperament.findAll()
 return     res.send(DBTemperaments)
 

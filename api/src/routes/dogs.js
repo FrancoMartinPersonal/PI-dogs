@@ -7,6 +7,7 @@ router.get('/', async(req,res,next)=> {
     //console.log(res)
     if(req.query.name){
         try{
+            
             var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
             dogsDataRes = dogsDataRes.data
             var dogData = dogsDataRes.filter(element =>{

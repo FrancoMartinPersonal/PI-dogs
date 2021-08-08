@@ -30,6 +30,9 @@
  - main and nav added with some details ;)
    ### 07/08/2021
   **commit name :main and nav added**
+  -main and nav improved
+  -action and reducer getDog added
+  -backend POST dog/ fixed (added Dog_temp in dog create) , added features 
 ## observaciones 
  ### 04/08/2021
     

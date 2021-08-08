@@ -9,7 +9,7 @@ background-color:#35095a;
 display:flex;
 justify-content: space-between;
 position:fixed;
-z-index:1000;
+z-index:2000;
 /* border-bottom:1px solid #872087; */
 `
 const DivImagotipo = styled.div `
@@ -27,10 +27,10 @@ margin-left: 10px;
 font-size: 3.2em;
 color:#fbe400;
 text-shadow:5px 5px 5px black;
-
-
 letter-spacing: 3px;
- 
+ &:hover{
+    color:#fbfb00;
+ }
 
 `
 const DivImg = styled.div `
@@ -58,6 +58,10 @@ padding: 10px;
 &:hover{
     background: linear-gradient(0deg, #35095a 44%, rgba(0,233,238,0.44861694677871145)50%, #35095a 55%);
     color:yellow
+}
+&:active{
+    background: linear-gradient(0deg, #35095a 44%, rgba(0,233,238,0.44861694677871145)50%, #35095a 55%);
+    color:rgba(255,100,157,1);
 }
 `
 
