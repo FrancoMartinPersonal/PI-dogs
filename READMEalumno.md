@@ -23,16 +23,27 @@
    ### 05/08/2021
 -  Temperament added to data base and endpoint to use
 -  Dog POST  added to data base and endpoint to use
-   **commit name : all endpoints and databases finished BACKEND** 
+  - **commit name : all endpoints and databases finished BACKEND** 
   ### 06/08/2021
   - consulting database instead return an const from await create
- **commit name :backend fixed and frontend started**
+- **commit name :backend fixed and frontend started**
  - main and nav added with some details ;)
-   ### 07/08/2021
-  **commit name :main and nav added**
-  -main and nav improved
-  -action and reducer getDog added
-  -backend POST dog/ fixed (added Dog_temp in dog create) , added features 
+  ### 07/08/2021
+
+ - **commit name :main and nav added**
+
+  - main and nav improved
+  - action and reducer getDog added
+  - backend POST dog/ fixed (added Dog_temp in dog create) , added features 
+
+  - **commit name :post dog fixed and added features**
+
+  ### 08/08/2021
+  - get Dogs improved, pagination added.
+  - get dog by input added
+  - control of errors from input searcher added
+  - filter by temperament added!.
+
 ## observaciones 
  ### 04/08/2021
     
@@ -50,6 +61,10 @@
   **commit name :backend fixed and frontend started**
    ### 07/08/2021
   **commit name :main and nav added**
+    **commit name :post dog fixed and added features**
+   ### 08/08/2021
+   -[ ]si llego, agregar en la base de datos un buscador que tire opciones de nombres semejantes a del 
+   perro ingresado en el input
 ## guía
  1. hacer repaso por los plugins y dependencias instaladas
  2. empezar desde backend, y guiar hasta base de datos 
