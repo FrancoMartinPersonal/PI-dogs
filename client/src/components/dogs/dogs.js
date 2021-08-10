@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import {connect} from 'react-redux'
+import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDogs,getTemperaments } from "../../actions/actions";
 const BodyDiv = styled.div `
-height: max-content;
+height: fit-content;
 width: 100%;
 margin-top: 80px;
 position: absolute;
@@ -23,6 +24,11 @@ margin: 100px auto;
 
 background: rgb(139,15,78);
 background: linear-gradient(332deg, rgba(139,15,78,1) 0%, rgba(168,58,58,1) 48%, rgba(139,15,78,1) 100%);
+cursor:pointer;
+&:hover{
+    background: rgba(160,29,98,1);
+background: linear-gradient(332deg, rgba(160,29,98,1) 0%, rgba(188,68,78,1) 48%, rgba(160,29,98,1) 100%);
+}
 `
 const DogTextDiv = styled.div `
 margin: 10px 15px;
@@ -79,14 +85,44 @@ export  function Dogs(props){
     const [input,setInput] = useState("")
     const [error,setError] = useState()
     const [temp,setTemp] = useState()
-
-
+    const [loading,setLoading] =useState(true)
+    const [sort, setSort] = useState()
     const filteredDogs = () => {
-        console.log(temp)
-        console.log()
-        if(temp !== 'elige un temperamento!...' && temp !== undefined){
+        
+        const sorteredDogs =() => {
+            if(sort=="A-Z" || sort== undefined){
+                return props?.dogs?.data?.sort((a, b) => {
+                    let fa = a.name.toLowerCase(),
+                        fb = b.name.toLowerCase();
+                
+                    if (fa < fb) {
+                        return -1;
+                    }
+                    if (fa > fb) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }else if(sort=="Z-A"){
+                
+                return  props?.dogs?.data?.sort((a, b) => {
+                    let fa = a.name.toLowerCase(),
+                        fb = b.name.toLowerCase();
+                
+                    if (fa > fb) {
+                        return -1;
+                    }
+                    if (fa < fb) {
+                        return 1;
+                    }
+                    return 0;
+                });
+            }
+        }
+        
+        if(temp !== 'todos' && temp !== undefined){
              var dogsFiltered = []
-              props?.dogs?.data?.map( dog =>{
+             sorteredDogs()?.map( dog =>{
                 if( dog?.temperament !== undefined && dog.temperament?.includes(temp)){
                     dogsFiltered.push(dog)
                 }
@@ -94,17 +130,21 @@ export  function Dogs(props){
             console.log(dogsFiltered)
             return dogsFiltered?.slice(current,current +9)
         }else{
-            return props?.dogs?.data?.slice(current,current +9)
+            return sorteredDogs()?.slice(current,current +9)
         }
-            
+        
     }
+      
 
 
      const nextPage = () => {
          setCurrent( current +9)
+         window.scrollY = 0
+         console.log()
      }
      const backPage = () => {
          if(current !== 0){
+            window.scrollY = 0
             setCurrent( current -9)
          }
         
@@ -136,22 +176,42 @@ export  function Dogs(props){
               console.log(capitalizarPrimeraLetra(input))
             props.getDogs(capitalizarPrimeraLetra(input))
             setError("se encontró")
+            setInput("")
         }else{
             setError("no se encontró el perro especificado");
         }
         // console.log(props)
         // console.log(e)
     }
+    
 
     useEffect(() => {
+        document.title = "Dogs! - Todos los perros"
+        console.log(window)
+        props.getDogs().then(()=>{
+            setLoading(false)
+        })
+        
+        props.getTemperaments()
+       console.log(sort)
+       return (()=> {
         props.getDogs()
         props.getTemperaments()
-        
+       })
     },[])
+   
+
+
     
-     console.log(props)
+     
     return (
         <BodyDiv>
+               <PagesButton
+                        onClick={backPage}>
+                            anterior</PagesButton>
+                       <PagesButton
+                       onClick={nextPage}
+                       >siguiente</PagesButton>
            <Form onClick={e => e.preventDefault()}>
              <div>
                 <input type="text" value={input} onChange={e => handleChange(e)}/>
@@ -159,37 +219,42 @@ export  function Dogs(props){
              </div>
                 <SpanError
                  style={error=="se encontró"?{color:"green"}:{color:'#800'}
-                }
-                
-                 >{error}</SpanError>
+                }>{error}</SpanError>
+
            </Form>
-                  <select style={{fontFamily:'roboto'}} onChange ={
-                      e => {
+                  <select style={{fontFamily:'roboto'}} onChange ={  e => {
                           e.preventDefault()
                           console.log(e.target.value)
-                          setTemp(e.target.value)
-                      }
-                  }>
-                       <option style={{fontFamily:'roboto'}} 
-                             >elige un temperamento!...</option>
-                                
-                        )
+                          setTemp(e.target.value)}}>
 
+                       <option style={{fontFamily:'roboto'}} 
+                        >todos</option>
+                             
+                   
                     {props.temps?.data?.map(temp =>{
                         return(
 
 
-                            <option style={{fontFamily:'roboto'}}
+                           <option style={{fontFamily:'roboto'}}
                               key={temp.id} value={temp.name}>{temp.name}</option>
-                                
-                        )
-                    })}
+                               
+                        )})}
             
                 </select>
+                <select onChange= {e => {
+                    e.preventDefault()
+                    console.log(e.target.value)
+                    setSort(e.target.value)
+                }}>
+                    <option value="A-Z">A-Z</option>
+                    <option value="Z-A">Z-A</option>
+                </select>
+             
             <ul>
-                    
+                   {loading&&<Loading/>} 
            {filteredDogs()?.map( dog =>{
                return (
+                <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
                    <DogCard  key={dog?.id}>
                       
                         <DogImg imgApi={dog?.image?.url} />
@@ -197,7 +262,7 @@ export  function Dogs(props){
                       
                        <DogTextDiv>
                        <DogText style={{color:'#fff000'}}>
-                        Name
+                        Breed
                         </DogText>
                         <DogText>
                         {dog?.name}
@@ -212,6 +277,7 @@ export  function Dogs(props){
                        </DogTextDiv>
                
                    </DogCard>
+                   </Link>
                )
            })}
            </ul>
@@ -222,7 +288,7 @@ export  function Dogs(props){
                        onClick={nextPage}
                        >siguiente</PagesButton>
             </BodyDiv>
-    )
+)
 }
 function mapStateToProps(state){
     return {

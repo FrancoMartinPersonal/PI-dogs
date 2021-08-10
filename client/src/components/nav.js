@@ -87,12 +87,12 @@ export default function Nav (){
                     get dogs
                 </BarH3>
                 </Link>
-                <Link to="/dogs"  style={{ textDecoration: 'none' }}>   
+                <Link to="/dog"  style={{ textDecoration: 'none' }}>   
                 <BarH3>
                     create dog
                 </BarH3>
                 </Link>
-                <Link to="/dogs"  style={{ textDecoration: 'none' }}>   
+                <Link to="/contact"  style={{ textDecoration: 'none' }}>   
                 <BarH3>
                     contact
                 </BarH3>

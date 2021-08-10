@@ -1,4 +1,4 @@
-import { GET_DOGS, GET_DOGS_BY_NAME,GET_TEMPERAMENTS } from "./constantes";
+import { GET_DOGS, GET_DOGS_BY_ID,GET_TEMPERAMENTS } from "./constantes";
 import axios from 'axios'
 
 export function getDogs (name){
@@ -42,4 +42,18 @@ export function getTemperaments(){
 
     }
 
+}
+
+export function getDogDetails(id){
+    return async function(dispatch){
+        try{
+            var dogDetailRes = await axios.get('http://localhost:3001/dogs/'+id)
+            dispatch({
+                type:GET_DOGS_BY_ID,
+                payload:dogDetailRes
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
 }

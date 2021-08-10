@@ -1,10 +1,11 @@
 import {
-    GET_DOGS,GET_TEMPERAMENTS
+    GET_DOGS,GET_DOGS_BY_ID,GET_TEMPERAMENTS
 } from '../actions/constantes'
 
 var initialState = {
     dogsLoaded:[],
-    tempsLoaded:[]
+    tempsLoaded:[],
+    dogDetailLoaded:[]
 }
 
 export default function reducer (state= initialState,action){
@@ -20,6 +21,11 @@ switch(action.type){
                 ...state,
                 tempsLoaded: action.payload
             }
+             case GET_DOGS_BY_ID:
+                return {
+                    ...state,
+                    dogDetailLoaded: action.payload
+                }      
        default: return {...state}
 }
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import mainWallImg from '../../img/dogs-wall-main.jpg'
 import dogsOne from '../../img/dogs-1.jpg'
 import dogsTwo from '../../img/dogs-2.jpg'
@@ -146,6 +146,10 @@ border-radius: 80px;
 
 `
 function Main(){
+
+    useEffect(()=>{
+        document.title = "Dogs! - bienvenido a la mejor página de perros!"
+    },[])
 return (<>
     
         <MainWallImg>

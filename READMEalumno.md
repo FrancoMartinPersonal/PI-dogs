@@ -43,7 +43,11 @@
   - get dog by input added
   - control of errors from input searcher added
   - filter by temperament added!.
-
+- **commit name :filter Temp, error control input and pagination simple added**
+  ### 09/08/2021
+  - filter by abecedary added.
+  - dog detail pag added.
+  
 ## observaciones 
  ### 04/08/2021
     
