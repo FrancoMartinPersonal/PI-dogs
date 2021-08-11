@@ -1,10 +1,10 @@
-import styled from "styled-components";
 import {connect} from 'react-redux'
 import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDogs,getTemperaments } from "../../actions/actions";
 import dogImg from "../../img/dog.png"
+import styled from "styled-components";
 const BodyDiv = styled.div `
 height: fit-content;
 width: 100%;
@@ -131,7 +131,7 @@ export  function Dogs(props){
     const [temp,setTemp] = useState()
     const [loading,setLoading] =useState(true)
     const [sort, setSort] = useState()
-
+    const [kindDog,setKindDog] = useState()
     const dogCreated = () => {
            
            
@@ -157,7 +157,7 @@ export  function Dogs(props){
         return AllDogs
      }
      const sorteredDogs =() => {
-         console.log(allDogs())
+        //  console.log(allDogs())
          if(sort=="A-Z" || sort== undefined){
              return allDogs()?.sort((a, b) => {
                  let fa = a.name.toLowerCase(),
@@ -189,21 +189,34 @@ export  function Dogs(props){
      }
 
     const filteredDogs = () => {
-        console.log(dogCreated())
-        console.log(props?.dogs?.data)
+        // console.log(dogCreated())
+        // console.log(props?.dogs?.data)
         
-        
+        var dogsFilteredByKind = []
+       if(kindDog!=="todos" && kindDog !== undefined){
+        sorteredDogs()?.map( dog =>{
+           if( kindDog=="reales" && dog.image){
+               dogsFilteredByKind.push(dog)
+           }else if(kindDog=="creados" && !dog.image && dog.id.length >3){
+            dogsFilteredByKind.push(dog)
+        }
+       })
+       }else{
+        dogsFilteredByKind = sorteredDogs()  
+        }
+
+
         if(temp !== 'todos' && temp !== undefined){
-             var dogsFiltered = []
-             sorteredDogs()?.map( dog =>{
+           var dogFilteredByTemp= []
+            dogsFilteredByKind?.map( dog =>{
                 if( dog?.temperament !== undefined && dog.temperament?.includes(temp)){
-                    dogsFiltered.push(dog)
+                    dogFilteredByTemp.push(dog)
                 }
             })
-            console.log(dogsFiltered)
-            return dogsFiltered?.slice(current,current +9)
+            console.log(dogFilteredByTemp)
+            return dogFilteredByTemp?.slice(current,current +9)
         }else{
-            return sorteredDogs()?.slice(current,current +9)
+            return dogsFilteredByKind?.slice(current,current +9)
         }
         
     }
@@ -261,10 +274,12 @@ export  function Dogs(props){
     useEffect(() => {
         document.title = "Dogs! - Todos los perros"
        
+       
         
-        console.log(props.dogs)
-        props.getDogs().then(()=>{
+    console.log(props.getDogs())
+        props.getDogs().then((e)=>{
             setLoading(false)
+            console.log(e)
         })
         
         props.getTemperaments()
@@ -276,7 +291,6 @@ export  function Dogs(props){
     },[])
    
 
-   
     
      
     return (
@@ -297,6 +311,7 @@ export  function Dogs(props){
                 }>{error}</SpanError>
 
            </Form>
+            {/*ordenar por temperamento*/}
                   <select style={{fontFamily:'roboto'}} onChange ={  e => {
                           e.preventDefault()
                           console.log(e.target.value)
@@ -314,8 +329,8 @@ export  function Dogs(props){
                               key={temp.id} value={temp.name}>{temp.name}</option>
                                
                         )})}
-            
                 </select>
+            {/*ordenar por abecedario*/}
                 <select onChange= {e => {
                     e.preventDefault()
                     console.log(e.target.value)
@@ -324,7 +339,17 @@ export  function Dogs(props){
                     <option value="A-Z">A-Z</option>
                     <option value="Z-A">Z-A</option>
                 </select>
-             
+              {/*ordenar por creacion, real o todos*/}
+              <select onChange= {e =>{
+                  e.preventDefault()
+                  console.log(e.target.value)
+                  setKindDog(e.target.value)
+                  
+              }}>
+                  <option value="todos">todos</option>
+                  <option value="creados">creados</option>
+                  <option value="reales">reales</option>
+              </select>
             <ul>
                    {loading&&<Loading/>} 
            {filteredDogs()?.map( dog =>{

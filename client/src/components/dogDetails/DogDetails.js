@@ -4,7 +4,7 @@ import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDogDetails } from "../../actions/actions";
-
+import dogImg from "../../img/dog.png"
 const BodyDiv = styled.div `
 height:100%;
 width: 100%;
@@ -78,7 +78,7 @@ return(
            return(
             <DogCard  key={dog?.id}>
                       
-            <DogImg imgApi={dog?.image?.url} />
+            <DogImg imgApi={dog?.image?.url||dogImg } />
 
           
            <DogTextDiv>

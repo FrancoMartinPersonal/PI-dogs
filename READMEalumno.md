@@ -59,8 +59,13 @@
 **commit name : form increased, no add the same key, host and form increased**
   ### 11/08/2021
   - post dogcreate created and working
-  -show dog created in dogs created
+  -show dog created in get dogs
   -temperaments frontend error fixed
+  **commit name : post dog created, showing dogs in get dogs and temperaments frontend** 
+  -filter by kind of dog added.
+  -dog create details added
+  
+
 ## observaciones 
  ### 04/08/2021
     
