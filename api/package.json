@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -L",
+    "start": "set HOST =192.168.42.71 && nodemon -L",
     "test": "mocha -w ./tests/**/*.spec.js"
   },
   "author": "Henry",

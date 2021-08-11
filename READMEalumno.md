@@ -47,7 +47,15 @@
   ### 09/08/2021
   - filter by abecedary added.
   - dog detail pag added.
-  
+  - dog create started.
+**commit name : A-Z, dog detail and dog create started and added**
+
+- temperaments with key to dog create added
+ ### 10/08/2021
+ -added cancel and "no add the same key" to temperaments in create dog
+- changed host to http://192.168.42.71:3000/
+- form increased 
+**commit name : **
 ## observaciones 
  ### 04/08/2021
     
@@ -59,13 +67,8 @@
   - [x] el get de temperament tarda 2 segundos en cargar, es un tiempo considerable(al final no
   hubo problemas con la espera, hice pair programming y se llegaron a otras conclusiones pero ninguna
   tardaba más que otra)
- **commit name : all endpoints and databases finished BACKEND** 
+
  
-  ### 06/08/2021
-  **commit name :backend fixed and frontend started**
-   ### 07/08/2021
-  **commit name :main and nav added**
-    **commit name :post dog fixed and added features**
    ### 08/08/2021
    -[ ]si llego, agregar en la base de datos un buscador que tire opciones de nombres semejantes a del 
    perro ingresado en el input
