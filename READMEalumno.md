@@ -54,8 +54,13 @@
  ### 10/08/2021
  -added cancel and "no add the same key" to temperaments in create dog
 - changed host to http://192.168.42.71:3000/
-- form increased 
-**commit name : **
+- form increased
+- error and success message of submit dog created, created.
+**commit name : form increased, no add the same key, host and form increased**
+  ### 11/08/2021
+  - post dogcreate created and working
+  -show dog created in dogs created
+  -temperaments frontend error fixed
 ## observaciones 
  ### 04/08/2021
     

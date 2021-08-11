@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
-import { getTemperaments } from "../../actions/actions"
+import { getTemperaments,postDogCreated } from "../../actions/actions"
 import DogDetails from "../dogDetails/DogDetails"
 const BodyDiv = styled.div `
 font-size: 2rem;
@@ -114,9 +114,13 @@ años de vida: no puede tener menos que 0 ni mas que 100
     const [input,setInput] = useState({})
     const [temps,setTemps] = useState([])
     const [error,setError] = useState([])
+    const [dogSended,setDogSended] = useState({
+        fail:false,
+        success:false
+    })
     const handleTemps=(e)=>{
         e.preventDefault()
-                   
+        console.log(temps)
 
         props.temps?.data?.forEach(temp =>{
 
@@ -154,33 +158,70 @@ años de vida: no puede tener menos que 0 ni mas que 100
             [evento.target.name]: evento.target.value
         }))
         
-        console.log(error)
+        console.log(input)
+    }
+    const SendMessage = () =>{
+        if(dogSended.success){
+            return (
+                <div><p>se ha creado el perro con éxito!</p></div>
+                )
+
+        }else if (dogSended.fail){
+            return(
+                <div><p>no se ha podido crear el perro, error en el formulario</p></div>
+            )
+            
+        }else{
+            return(
+                <div></div>
+            )
+        }
     }
   const sendDog= (e) => {
     e.preventDefault()
-   
-        if(Object.keys(error).length === 0 && Object.keys(input).length !== 0){
-            for (let index = 0; index <= 5; index++) {//index limite sujeto a la cantidad de inputs
-                e.target[index].value = ""
-                
-            }
-        
+    if(Object.keys(error).length === 0 && Object.keys(input).length !== 0){
+        for (let index = 0; index <= 5; index++) {//index limite sujeto a la cantidad de inputs
+            e.target[index].value = ""
+        }
+        var tempsId = []
+        temps.forEach(temps =>{
+            tempsId.push(temps.key)
+        })
+        var sendDog = {
+            name: input.nombre,
+            weight: input.pesoMin == input.pesoMax?input.pesoMin: + input.pesoMin+ " - "+input.pesoMax,
+            height: input.alturaMin == input.alturaMax?input.alturaMax: + input.alturaMin+ " - "+input.alturaMax,
+            age_span: input.anios,
+            temperament:tempsId
+            
+        }
+        console.log(sendDog)
+        props.postDogCreated(sendDog)
+            console.log(props.dogsCreated)
+            setTemps([])
           setInput({})
+         setDogSended({
+             fail:false,
+             success:true
+         })
             console.log(e)
                 console.log("hello")
         }else{
-            
+            setDogSended({
+                fail:true,
+                success:false
+            })
+            console.log(props.dogsCreated)
             console.log("no puedes enviar un formulario con errores")
         }
   }
     useEffect(()=>{
-        props.getTemperaments()
+       
         
-        .then(()=>{
-            console.log(props.temps)
-        })
+        props.getTemperaments()
         document.title = "Dogs! - creador de perros"
     },[])
+    console.log()
     return(
         <BodyDiv>
             <TextDiv>
@@ -298,7 +339,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
          
          >enviar</button>               
         </form>
-
+                       <SendMessage></SendMessage>
         </BodyDiv>
 
 
@@ -306,7 +347,9 @@ años de vida: no puede tener menos que 0 ni mas que 100
 
 }
 function mapStateToProps(state){
-    return{temps: state.tempsLoaded}
+    return{temps: state.tempsLoaded,
+            dogsCreated: state.dogsCreated   
+    }
 }
 
-export default connect(mapStateToProps,{getTemperaments})(DogCreation)
+export default connect(mapStateToProps,{getTemperaments,postDogCreated})(DogCreation)

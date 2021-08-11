@@ -4,6 +4,7 @@ import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDogs,getTemperaments } from "../../actions/actions";
+import dogImg from "../../img/dog.png"
 const BodyDiv = styled.div `
 height: fit-content;
 width: 100%;
@@ -78,7 +79,50 @@ align-items: center;
 const SpanError = styled.span `
 font-family: 'Robot', 'Times New Roman', Times, serif;
 `
+const DogCardCreated = styled.div `
 
+display: flex;
+justify-content: space-around;
+align-items: center;
+width: 800px;
+height: 300px;
+border: 5px solid white;
+border-radius: 2%;
+margin: 100px auto;
+
+background: rgb(129,122,16);
+background: linear-gradient(332deg, rgba(129,122,16,1) 0%, rgba(173,153,17,1) 48%, rgba(129,122,16,1) 100%);
+cursor:pointer;
+&:hover{
+    background: rgb(129,122,16);
+background: linear-gradient(332deg, rgba(150,145,33,1) 0%, rgba(213,183,47,1) 48%,  rgba(150,145,33,1)100%);
+}
+`
+const DogTextDivCreated = styled.div `
+margin: 10px 15px;
+width: 40%;
+
+`
+
+const DogTextCreated = styled.h6 `
+font-family:'roboto',sans-serif ;
+color: #fff;
+background-color: #0003;
+font-size: 1em;
+padding: 10px 16px;
+
+`
+const DogImgCreated = styled.div `
+background-image: url(${props => props.imgApi});
+background-size:cover;
+background-origin:border-box;
+background-repeat: no-repeat;
+width:220px;
+height: 170px;
+border: 4px solid white;
+border-radius: 40px;
+margin: 10px 15px;
+`
 export  function Dogs(props){
 
     const [current,setCurrent] = useState(0)
@@ -87,38 +131,67 @@ export  function Dogs(props){
     const [temp,setTemp] = useState()
     const [loading,setLoading] =useState(true)
     const [sort, setSort] = useState()
-    const filteredDogs = () => {
+
+    const dogCreated = () => {
+           
+           
         
-        const sorteredDogs =() => {
-            if(sort=="A-Z" || sort== undefined){
-                return props?.dogs?.data?.sort((a, b) => {
-                    let fa = a.name.toLowerCase(),
-                        fb = b.name.toLowerCase();
-                
-                    if (fa < fb) {
-                        return -1;
-                    }
-                    if (fa > fb) {
-                        return 1;
-                    }
-                    return 0;
-                });
-            }else if(sort=="Z-A"){
-                
-                return  props?.dogs?.data?.sort((a, b) => {
-                    let fa = a.name.toLowerCase(),
-                        fb = b.name.toLowerCase();
-                
-                    if (fa > fb) {
-                        return -1;
-                    }
-                    if (fa < fb) {
-                        return 1;
-                    }
-                    return 0;
-                });
+        var dogCreatedMap = props?.dogsCreated?.data?.map(dog =>{
+            var DogTemperaments = []
+            dog.Temperaments.forEach(temperament =>{
+                DogTemperaments.push(temperament.name)
+            })
+            return  {
+                id:dog.id,
+                name:dog.name,
+                temperament:DogTemperaments.join(", ")
             }
-        }
+        })    
+        
+        return dogCreatedMap
+    }
+    const allDogs=() =>{
+        var AllDogs = []
+        props?.dogs?.data?.forEach(dog => AllDogs.push(dog))
+        dogCreated()?.forEach(dog => AllDogs.push(dog))
+        return AllDogs
+     }
+     const sorteredDogs =() => {
+         console.log(allDogs())
+         if(sort=="A-Z" || sort== undefined){
+             return allDogs()?.sort((a, b) => {
+                 let fa = a.name.toLowerCase(),
+                     fb = b.name.toLowerCase();
+             
+                 if (fa < fb) {
+                     return -1;
+                 }
+                 if (fa > fb) {
+                     return 1;
+                 }
+                 return 0;
+             });
+         }else if(sort=="Z-A"){
+             
+             return  allDogs()?.sort((a, b) => {
+                 let fa = a.name.toLowerCase(),
+                     fb = b.name.toLowerCase();
+             
+                 if (fa > fb) {
+                     return -1;
+                 }
+                 if (fa < fb) {
+                     return 1;
+                 }
+                 return 0;
+             });
+         }
+     }
+
+    const filteredDogs = () => {
+        console.log(dogCreated())
+        console.log(props?.dogs?.data)
+        
         
         if(temp !== 'todos' && temp !== undefined){
              var dogsFiltered = []
@@ -187,7 +260,9 @@ export  function Dogs(props){
 
     useEffect(() => {
         document.title = "Dogs! - Todos los perros"
-        console.log(window)
+       
+        
+        console.log(props.dogs)
         props.getDogs().then(()=>{
             setLoading(false)
         })
@@ -201,7 +276,7 @@ export  function Dogs(props){
     },[])
    
 
-
+   
     
      
     return (
@@ -253,32 +328,63 @@ export  function Dogs(props){
             <ul>
                    {loading&&<Loading/>} 
            {filteredDogs()?.map( dog =>{
-               return (
-                <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
-                   <DogCard  key={dog?.id}>
-                      
-                        <DogImg imgApi={dog?.image?.url} />
+               if(dog?.image){
+                return (
+                    <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
+                       <DogCard  key={dog?.id}>
+                          
+                            <DogImg imgApi={dog?.image?.url||dogImg} />
+    
+                          
+                           <DogTextDiv>
+                           <DogText style={{color:'#fff000'}}>
+                            Breed
+                            </DogText>
+                            <DogText>
+                            {dog?.name}
+                            </DogText>
+                            <DogText  style={{color:'#2fd020'}}>
+                            Temperament
+                            </DogText>
+                            <DogText>
+                            {dog?.temperament}
+                            </DogText>
+                           
+                           </DogTextDiv>
+                   
+                       </DogCard>
+                       </Link>
+                   )
+               }else{
+                return (
+                    <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
+                       <DogCardCreated  key={dog?.id}>
+                          <DogImgCreated imgApi={dogImg}></DogImgCreated>
+                           
+    
+                          
+                           <DogTextDivCreated>
+                           <DogTextCreated style={{color:'#fff000'}}>
+                            Breed
+                            </DogTextCreated>
+                            <DogTextCreated>
+                            {dog?.name}
+                            </DogTextCreated>
+                            <DogTextCreated  style={{color:'#2fd020'}}>
+                            Temperament
+                            </DogTextCreated>
+                            <DogTextCreated>
+                            {dog?.temperament}
+                            </DogTextCreated>
+                           
+                           </DogTextDivCreated>
+                   
+                       </DogCardCreated>
+                       </Link>
+                   )
 
-                      
-                       <DogTextDiv>
-                       <DogText style={{color:'#fff000'}}>
-                        Breed
-                        </DogText>
-                        <DogText>
-                        {dog?.name}
-                        </DogText>
-                        <DogText  style={{color:'#2fd020'}}>
-                        Temperament
-                        </DogText>
-                        <DogText>
-                        {dog?.temperament}
-                        </DogText>
-                       
-                       </DogTextDiv>
+               }
                
-                   </DogCard>
-                   </Link>
-               )
            })}
            </ul>
            <PagesButton
@@ -293,7 +399,8 @@ export  function Dogs(props){
 function mapStateToProps(state){
     return {
         dogs : state.dogsLoaded,
-        temps : state.tempsLoaded
+        temps : state.tempsLoaded,
+        dogsCreated: state.dogsCreated
     }
 }
 export default connect(mapStateToProps,{getDogs,getTemperaments})(Dogs)
