@@ -8,15 +8,48 @@ router.get('/', async(req,res,next)=> {
     //console.log(res)
     if(req.query.name){
         try{
-            
+            console.log(req.query.name)
+            console.log("↑↑↑req.query.name")
             var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
             dogsDataRes = dogsDataRes.data
+            var  dogsFindAll = await axios.get('http://localhost:3001/dog')
+              dogsFindAll = dogsFindAll.data
             var dogData = dogsDataRes.filter(element =>{
                 return element.name == req.query.name
                 
+            }) 
+            console.log(dogData)
+            console.log("↑↑↑dogData")
+            var dogFindAllFilter = dogsFindAll.filter( element =>{
+                return element.name == req.query.name
             })
-            if(dogData[0].name){
-                res.send(dogData)
+            console.log(dogFindAllFilter)
+            console.log("↑↑↑dogFindAllFilter")
+            dogFindAllFilter = dogFindAllFilter.map( data => {
+                var DogTemperaments = []
+                data.Temperaments.forEach(temperament =>{
+                        DogTemperaments.push(temperament.name)
+                    })
+                return {
+                    id: data.id,
+                    name: data.name, 
+                    temperament:DogTemperaments.join(", "),  
+                    weight: data.weight,
+                    height: data.height,
+                    life_span: data.age_span
+                }})
+               var allDogs = dogData.concat(dogFindAllFilter)
+               console.log(allDogs)
+               console.log("↑↑↑ allDogs")
+               var allDogsFilter = allDogs.filter( element =>{
+                return element.name == req.query.name
+            })
+            console.log(allDogsFilter)
+            console.log("↑↑↑allDogsFilter")
+            if(allDogsFilter[0].name){
+                res.send(allDogsFilter)
+
+               
                
             }
         }catch(error){
@@ -39,6 +72,7 @@ router.get('/', async(req,res,next)=> {
                     }
                 }
             })
+            
         res.send(dogData)}
         catch(error){
             console.log("error get dog disparado")

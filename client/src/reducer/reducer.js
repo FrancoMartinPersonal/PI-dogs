@@ -1,5 +1,5 @@
 import {
-    GET_DOGS,GET_DOGS_BY_ID,GET_TEMPERAMENTS,POST_DOG
+    GET_DOGS,GET_DOGS_BY_ID,GET_DOG_CREATED,GET_TEMPERAMENTS,POST_DOG
 } from '../actions/constantes'
 
 var initialState = {
@@ -28,6 +28,11 @@ switch(action.type){
                     dogDetailLoaded: action.payload
                 }  
                 case POST_DOG:
+                    return {
+                        ...state,
+                        dogsCreated: action.payload
+                    } 
+                    case GET_DOG_CREATED:
                     return {
                         ...state,
                         dogsCreated: action.payload

@@ -1,4 +1,4 @@
-import { GET_DOGS, GET_DOGS_BY_ID,GET_TEMPERAMENTS,POST_DOG } from "./constantes";
+import { GET_DOGS, GET_DOGS_BY_ID,GET_DOG_CREATED,GET_TEMPERAMENTS,POST_DOG, POST_DOG_CREATED } from "./constantes";
 import axios from 'axios'
 
 export function getDogs (name){
@@ -71,6 +71,19 @@ export function postDogCreated(json){
               })
             dispatch({
                 type:POST_DOG,
+                payload:dogCreatedRes
+            })
+        }catch(e){
+            console.log(e)
+        }
+    }
+}
+export function getDogsCreated(){
+    return async function(dispatch){
+        try{
+            var dogCreatedRes = await axios.get("http://192.168.42.71:3001/dog")
+            dispatch({
+                type:GET_DOG_CREATED,
                 payload:dogCreatedRes
             })
         }catch(e){

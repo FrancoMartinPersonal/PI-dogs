@@ -64,7 +64,7 @@
   **commit name : post dog created, showing dogs in get dogs and temperaments frontend** 
   -filter by kind of dog added.
   -dog create details added
-  
+  **commit name :filter by kind of dog and details from dog create added**
 
 ## observaciones 
  ### 04/08/2021

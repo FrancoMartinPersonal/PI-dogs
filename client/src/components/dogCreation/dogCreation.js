@@ -143,21 +143,35 @@ años de vida: no puede tener menos que 0 ni mas que 100
         })
         setTemps(resultTemps)
     }
-
+    function capitalizarPrimeraLetra(str) {
+        var arrayString = []
+        var	arrayWords = str.split(" ")
+        arrayWords.forEach(element => {
+           
+            arrayString.push(element.charAt(0).toUpperCase() + element.slice(1))  
+            })
+            return arrayString.join(" ")
+          
+        }
     const onInputChange = (evento) => {
         evento.preventDefault()
         setInput((prevState) => {
-            
+            if(evento.target.name == "nombre"){
+                return {
+                    ...prevState,
+                    nombre: capitalizarPrimeraLetra(evento.target.value)
+            }
+        }else{
             return {
                 ...prevState,
                 [evento.target.name]: evento.target.value
-            }
+            }}
         })
         setError(validate({
             ...input,
             [evento.target.name]: evento.target.value
         }))
-        
+      
         console.log(input)
     }
     const SendMessage = () =>{
@@ -179,6 +193,8 @@ años de vida: no puede tener menos que 0 ni mas que 100
     }
   const sendDog= (e) => {
     e.preventDefault()
+    setInput({
+        nombre:capitalizarPrimeraLetra(input.nombre)})
     if(Object.keys(error).length === 0 && Object.keys(input).length !== 0){
         for (let index = 0; index <= 5; index++) {//index limite sujeto a la cantidad de inputs
             e.target[index].value = ""
@@ -187,6 +203,8 @@ años de vida: no puede tener menos que 0 ni mas que 100
         temps.forEach(temps =>{
             tempsId.push(temps.key)
         })
+      
+            
         var sendDog = {
             name: input.nombre,
             weight: input.pesoMin == input.pesoMax?input.pesoMin: + input.pesoMin+ " - "+input.pesoMax,

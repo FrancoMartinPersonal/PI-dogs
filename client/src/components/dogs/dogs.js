@@ -2,7 +2,7 @@ import {connect} from 'react-redux'
 import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getDogs,getTemperaments } from "../../actions/actions";
+import { getDogs,getTemperaments,getDogsCreated } from "../../actions/actions";
 import dogImg from "../../img/dog.png"
 import styled from "styled-components";
 const BodyDiv = styled.div `
@@ -123,6 +123,7 @@ border: 4px solid white;
 border-radius: 40px;
 margin: 10px 15px;
 `
+var dogFinded = []
 export  function Dogs(props){
 
     const [current,setCurrent] = useState(0)
@@ -132,23 +133,31 @@ export  function Dogs(props){
     const [loading,setLoading] =useState(true)
     const [sort, setSort] = useState()
     const [kindDog,setKindDog] = useState()
+    
     const dogCreated = () => {
+        console.log(dogFinded)
            
-           
-        
-        var dogCreatedMap = props?.dogsCreated?.data?.map(dog =>{
-            var DogTemperaments = []
-            dog.Temperaments.forEach(temperament =>{
-                DogTemperaments.push(temperament.name)
-            })
-            return  {
-                id:dog.id,
-                name:dog.name,
-                temperament:DogTemperaments.join(", ")
-            }
-        })    
-        
-        return dogCreatedMap
+        if(Object.keys(dogFinded).length === 0 ){
+
+            var dogCreatedMap = props?.dogsCreated?.data?.map(dog =>{
+                var DogTemperaments = []
+                dog.Temperaments.forEach(temperament =>{
+                    DogTemperaments.push(temperament.name)
+                })
+                return  {
+                    id:dog.id,
+                    name:dog.name,
+                    temperament:DogTemperaments.join(", ")
+                }
+            })    
+            
+            return dogCreatedMap
+        }else{
+          
+                
+            
+            return dogCreatedMap
+        }
     }
     const allDogs=() =>{
         var AllDogs = []
@@ -235,37 +244,66 @@ export  function Dogs(props){
          }
         
     }
-
+    function capitalizarPrimeraLetra(str) {
+        var arrayString = []
+        var	arrayWords = str.split(" ")
+        arrayWords.forEach(element => {
+           
+            arrayString.push(element.charAt(0).toUpperCase() + element.slice(1))  
+            })
+            return arrayString.join(" ")
+          
+        }
     const handleChange = (e) =>{
-        setInput(e.target.value)
-        
+       
+            console.log(capitalizarPrimeraLetra(e.target.value))
+        setInput(capitalizarPrimeraLetra(e.target.value))
+        console.log("↑↑set input")
+        console.log(input)
+        console.log("↑↑input")
     }
 
-    const onClickSearch = (e) =>{
-        e.preventDefault()
-        function capitalizarPrimeraLetra(str) {
-            var arrayString = []
-            var	arrayWords = str.split(" ")
-                    arrayWords.forEach(element => {
-               
-                  arrayString.push(element.charAt(0).toUpperCase() + element.slice(1))  
-                })
-                return arrayString.join(" ")
-              
+      const  onClickSearch = async (e) =>{
+         
+            if(props?.dogs?.data.length < 2){
+
+                await props.getDogs()
+                setError("pulsa enviar otra vez para buscar");
+            }else{
+                e.preventDefault()
+                
+
+                    dogFinded = props?.dogs?.data.find(dog =>{
+                    return dog.name == capitalizarPrimeraLetra(input)
+                    })
+                    console.log(props?.dogs?.data)
+                    console.log(dogFinded)
+                    if(dogFinded == undefined){
+                     dogFinded = props?.dogsCreated?.data.find(dog =>{
+                        return dog.name == capitalizarPrimeraLetra(input)
+                        })  
+                      
+                        console.log(props?.dogsCreated?.data)
+                        console.log(dogFinded)}
+                if(dogFinded !== undefined){
+                   
+                      console.log(capitalizarPrimeraLetra(dogFinded.name))
+                    props.getDogs(capitalizarPrimeraLetra(dogFinded.name))
+                    setError("se encontró")
+                   
+                }else if(props?.dogs?.data.length < 2){
+                    setError("recargando");
+                   
+                }else{
+                    setError("no se ha encontrado el perro especificado"); 
+                }
+
             }
-           var dogFinded = props?.dogs?.data?.find(dog =>{
-            return dog.name == capitalizarPrimeraLetra(input)
-            })
-            console.log(dogFinded)
-        if(dogFinded !== undefined){
-           
-              console.log(capitalizarPrimeraLetra(input))
-            props.getDogs(capitalizarPrimeraLetra(input))
-            setError("se encontró")
-            setInput("")
-        }else{
-            setError("no se encontró el perro especificado");
-        }
+         
+
+        
+            
+       
         // console.log(props)
         // console.log(e)
     }
@@ -275,22 +313,22 @@ export  function Dogs(props){
         document.title = "Dogs! - Todos los perros"
        
        
-        
-    console.log(props.getDogs())
+        props.getDogsCreated()
+    
         props.getDogs().then((e)=>{
             setLoading(false)
-            console.log(e)
+           
         })
         
         props.getTemperaments()
-       console.log(sort)
+      
        return (()=> {
         props.getDogs()
         props.getTemperaments()
        })
     },[])
-   
-
+  
+    
     
      
     return (
@@ -353,7 +391,7 @@ export  function Dogs(props){
             <ul>
                    {loading&&<Loading/>} 
            {filteredDogs()?.map( dog =>{
-               if(dog?.image){
+               if(dog.image){
                 return (
                     <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
                        <DogCard  key={dog?.id}>
@@ -380,7 +418,7 @@ export  function Dogs(props){
                        </DogCard>
                        </Link>
                    )
-               }else{
+               }else if (dog.id.length >10){
                 return (
                     <Link to={`/dogs/${dog?.id}` } key={dog?.id} style={{textDecoration:'none'}}> 
                        <DogCardCreated  key={dog?.id}>
@@ -428,4 +466,4 @@ function mapStateToProps(state){
         dogsCreated: state.dogsCreated
     }
 }
-export default connect(mapStateToProps,{getDogs,getTemperaments})(Dogs)
+export default connect(mapStateToProps,{getDogs,getTemperaments,getDogsCreated})(Dogs)
