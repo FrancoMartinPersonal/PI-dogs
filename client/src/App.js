@@ -7,6 +7,8 @@ import {Route} from 'react-router-dom';
 import Dogs from './components/dogs/dogs';
 import DogDetails from './components/dogDetails/DogDetails';
 import DogCreation from './components/dogCreation/dogCreation';
+import Contact from './components/contact/contact';
+
 // const Title = styled.h1 `
 //  color: ${state=> state.tono}
 //   `;
@@ -28,7 +30,9 @@ function App() {
          render={({match})=>
           <DogDetails id={match.params.id}/>
         }/>
-
+        <Route exact path="/contact">
+          <Contact></Contact>
+        </Route>
         
       <Route exact path="/dog">
         <DogCreation/>

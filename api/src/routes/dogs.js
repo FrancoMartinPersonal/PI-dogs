@@ -18,13 +18,23 @@ router.get('/', async(req,res,next)=> {
                 return element.name == req.query.name
                 
             }) 
-            console.log(dogData)
-            console.log("↑↑↑dogData")
+                dogData = dogData.map(dog => {
+                    return {
+                        id: dog.id,
+                        name: dog.name, 
+                        temperament: dog.temperament,
+                        weight: dog.weight.metric,
+                        image:{ 
+                            url: dog.image.url,
+                            id: dog.image.id
+                        }
+                    }
+    
+                })
             var dogFindAllFilter = dogsFindAll.filter( element =>{
                 return element.name == req.query.name
             })
-            console.log(dogFindAllFilter)
-            console.log("↑↑↑dogFindAllFilter")
+            
             dogFindAllFilter = dogFindAllFilter.map( data => {
                 var DogTemperaments = []
                 data.Temperaments.forEach(temperament =>{
@@ -39,13 +49,11 @@ router.get('/', async(req,res,next)=> {
                     life_span: data.age_span
                 }})
                var allDogs = dogData.concat(dogFindAllFilter)
-               console.log(allDogs)
-               console.log("↑↑↑ allDogs")
+              
                var allDogsFilter = allDogs.filter( element =>{
                 return element.name == req.query.name
             })
-            console.log(allDogsFilter)
-            console.log("↑↑↑allDogsFilter")
+            
             if(allDogsFilter[0].name){
                 res.send(allDogsFilter)
 
@@ -60,20 +68,39 @@ router.get('/', async(req,res,next)=> {
     try {
         var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
         dogsDataRes = dogsDataRes.data
+        var  dogsFindAll = await axios.get('http://localhost:3001/dog')
+              dogsFindAll = dogsFindAll.data
+           
             var dogData = dogsDataRes.map( data => {
                 return {
                     id: data.id,
                     name: data.name, 
                     temperament: data.temperament,
-                    
+                    weight: data.weight.metric,
                     image:{ 
                         url: data.image.url,
                         id: data.image.id
                     }
                 }
+
             })
+            dogsFindAll = dogsFindAll.map( data => {
+                var DogTemperaments = []
+                data.Temperaments.forEach(temperament =>{
+                        DogTemperaments.push(temperament.name)
+                    })
+                return {
+                    id: data.id,
+                    name: data.name, 
+                    weight: data.weight,
+                    temperament:DogTemperaments.join(", "),  
+                   
+                }})
+               var allDogs = dogData.concat(dogsFindAll)
+               
+             
             
-        res.send(dogData)}
+        res.send(allDogs)}
         catch(error){
             console.log("error get dog disparado")
             next({msg:error,status:500 })   
@@ -88,16 +115,14 @@ router.get('/:idRaza', async(req,res,next)=> {
      dogsDataRes = dogsDataRes.data
    var  dogsFindAll = await axios.get('http://localhost:3001/dog')
    dogsFindAll = dogsFindAll.data
-   console.log(dogsFindAll)
-   console.log("↑↑↑ dog findall ↑↑↑")
+
    dogData = dogsDataRes.filter(id => {
        return id.id == idRaza
     })
     var dogFindAllFilter = dogsFindAll.filter( id =>{
          return id.id == idRaza
      })
-     console.log(dogFindAllFilter)
-     console.log("↑↑↑dogFindAllFilter ↑↑↑")
+
       dogData = dogData.map( data => {
           return {
             id:parseInt(data.id),
@@ -126,8 +151,7 @@ router.get('/:idRaza', async(req,res,next)=> {
             life_span: data.age_span
         }})
        var allDogs = dogData.concat(dogFindAllFilter)
-       console.log(allDogs)
-       console.log("↑↑↑ allDogs")
+      
        var allDogsFilter = allDogs.filter( id =>{
         return id.id = idRaza
     })
@@ -135,8 +159,7 @@ router.get('/:idRaza', async(req,res,next)=> {
         //  console.log("↑↑↑ dogfindallfilter --- filter")
          if (  allDogsFilter[0].name  ){
             
-             console.log(allDogsFilter)
-             console.log("↑↑↑ dogdata")
+           
              res.send(allDogsFilter)
              allDogsFilter = []
              dogsFindAll = []

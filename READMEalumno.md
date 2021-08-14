@@ -63,9 +63,21 @@
   -temperaments frontend error fixed
   **commit name : post dog created, showing dogs in get dogs and temperaments frontend** 
   -filter by kind of dog added.
-  -dog create details added
+  -dog create details added.
+  ### 12/08/2021
   **commit name :filter by kind of dog and details from dog create added**
-
+  -dog create input searcher finished (maybe with some bugs)
+  -frontend finished
+  
+**commit name :frontend finished, tests and stylish left**
+  ### 13/08/2021
+  -pagination fixed
+  -loader added
+  - get dogs in backend with created dog added and fixed error with search
+  - get dogs only created menu fixed.
+  - dogs sorted by weight 
+  - dog searcher and dog detail title fixed 
+  
 ## observaciones 
  ### 04/08/2021
     

@@ -44,6 +44,8 @@ export function validate(input){
         errores.nombre = 'nombre es requirido'
     }else if(input.nombre.length >30 ||input.nombre.length <3  ){
         errores.nombre = 'nombre tiene que tener entre 3 y 30 carácteres'
+    }else if(!/^[a-zA-Z ]*$/.test(input.nombre)){
+        errores.nombre = 'nombre debe llevar sólo letras como carácteres'
     }
 
 
@@ -235,7 +237,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
   }
     useEffect(()=>{
        
-        
+        window.scroll(0,0)
         props.getTemperaments()
         document.title = "Dogs! - creador de perros"
     },[])

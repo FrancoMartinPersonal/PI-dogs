@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getDogDetails } from "../../actions/actions";
-import dogImg from "../../img/dog.png"
+import { getDogDetails,getDogsCreated } from "../../actions/actions";
+import dogImg from "../../img/perro-silueta.jpg"
 const BodyDiv = styled.div `
 height:100%;
 width: 100%;
@@ -59,17 +59,31 @@ export  function DogDetails(params){
     const [loading,setLoading] =useState(true)
     
      useEffect(()=>{
+       
+        window.scroll(0,0)
         params.getDogDetails(params.id).then(()=>{
+       
             setLoading(false)
         })
     return(()=>{
         params.getDogDetails(params.id)
+        params.getDogsCreated()
+        document.title = "Dogs! - "
     })
    
     },[])
-     useEffect(()=>{
-        console.log(params.dogDetail)
-     },[params?.dogDetail])
+    useEffect(()=>{
+       
+        var dog =   params?.dogDetail?.data?.find( e => e)
+            document.title = "Dogs! - "+dog?.name
+       
+   return(()=>{
+     
+       document.title = "Dogs! - "
+   })
+  
+},[params?.dogDetail?.data])
+console.log(params)
 return(
     
     <BodyDiv>
@@ -98,13 +112,13 @@ return(
             Height
             </DogText>
             <DogText>
-            {dog?.height}
+            {dog?.height} cm 
             </DogText>
             <DogText  style={{color:'#a0a0a0'}}>
-            Weight
+            Weight 
             </DogText>
             <DogText>
-            {dog?.weight}
+            {dog?.weight} kg
             </DogText>
             <DogText  style={{color:'#addd'}}>
             life span
@@ -127,4 +141,4 @@ return(
 function mapStateToProps(state){
 return {dogDetail: state.dogDetailLoaded }
 }
-export default connect(mapStateToProps,{getDogDetails})(DogDetails)
+export default connect(mapStateToProps,{getDogDetails,getDogsCreated})(DogDetails)

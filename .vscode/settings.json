@@ -1,0 +1,8 @@
+{
+    "editor.hover.enabled": true,
+    "window.zoomLevel": 1,
+    "workbench.colorTheme": "Monokai",
+    "workbench.colorCustomizations": {
+        "sideBar.background": "#0000000a"
+    }
+}

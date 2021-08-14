@@ -3,7 +3,7 @@ import { Loading } from "../loading";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getDogs,getTemperaments,getDogsCreated } from "../../actions/actions";
-import dogImg from "../../img/dog.png"
+import dogImg from "../../img/perro-silueta.jpg"
 import styled from "styled-components";
 const BodyDiv = styled.div `
 height: fit-content;
@@ -66,6 +66,10 @@ border-style: none;
 border:3px solid white;
 cursor:pointer;
 
+`
+const DivButton = styled.div `
+margin-top:50px;
+margin-bottom:100px;
 `
 const Form = styled.form `
 margin: 40px 10px;
@@ -133,42 +137,52 @@ export  function Dogs(props){
     const [loading,setLoading] =useState(true)
     const [sort, setSort] = useState()
     const [kindDog,setKindDog] = useState()
+    const [sortWeight,setSortWeight] = useState()
     
-    const dogCreated = () => {
-        console.log(dogFinded)
-           
-        if(Object.keys(dogFinded).length === 0 ){
+    // const dogCreated = () => {
+        
+    //     // console.log(dogFinded)
+    //     // if(dogFinded === undefined || Object.keys(dogFinded).length === 0 ){
 
-            var dogCreatedMap = props?.dogsCreated?.data?.map(dog =>{
-                var DogTemperaments = []
-                dog.Temperaments.forEach(temperament =>{
-                    DogTemperaments.push(temperament.name)
-                })
-                return  {
-                    id:dog.id,
-                    name:dog.name,
-                    temperament:DogTemperaments.join(", ")
-                }
-            })    
+    //         var dogCreatedMap = props?.dogsCreated?.data?.map(dog =>{
+    //             var DogTemperaments = []
+    //             dog.Temperaments.forEach(temperament =>{
+    //                 DogTemperaments.push(temperament.name)
+    //             })
+    //             return  {
+    //                 id:dog.id,
+    //                 name:dog.name,
+    //                 temperament:DogTemperaments.join(", ")
+    //             }
+    //         })    
             
-            return dogCreatedMap
-        }else{
+    //         return dogCreatedMap
+    //     // }else{
           
-                
+    //         //     var dogFindedInArr = [];
+    //         //     dogFindedInArr.push(dogFinded)
+    //         // var dogCreatedMap = dogFindedInArr?.map(dog =>{
+             
+    //         //     return  {
+    //         //         id:dog.id,
+    //         //         name:dog.name,
+    //         //         temperament:dog.temperament
+    //         //     }
+    //         // }) 
             
-            return dogCreatedMap
-        }
-    }
-    const allDogs=() =>{
-        var AllDogs = []
-        props?.dogs?.data?.forEach(dog => AllDogs.push(dog))
-        dogCreated()?.forEach(dog => AllDogs.push(dog))
-        return AllDogs
-     }
+    //         //return dogCreatedMap
+    //     }
+
+    // const allDogs=() =>{
+    //     var AllDogs = []
+    //    forEach(dog => AllDogs.push(dog))
+    //     console.log(dogFinded)
+    //     return AllDogs
+    //  }
      const sorteredDogs =() => {
         //  console.log(allDogs())
          if(sort=="A-Z" || sort== undefined){
-             return allDogs()?.sort((a, b) => {
+             return  props?.dogs?.data?.sort((a, b) => {
                  let fa = a.name.toLowerCase(),
                      fb = b.name.toLowerCase();
              
@@ -182,7 +196,7 @@ export  function Dogs(props){
              });
          }else if(sort=="Z-A"){
              
-             return  allDogs()?.sort((a, b) => {
+             return   props?.dogs?.data?.sort((a, b) => {
                  let fa = a.name.toLowerCase(),
                      fb = b.name.toLowerCase();
              
@@ -196,28 +210,111 @@ export  function Dogs(props){
              });
          }
      }
+     const sorteredByWeight =() =>{
+         if(sortWeight == "peso menor a mayor"){
+            var weightDogsNaN = sorteredDogs()?.filter(e => e.weight.includes("NaN"))
+            var  weightDogsNoNaN = sorteredDogs()?.filter(e => !e.weight.includes("NaN"))
+    var  weightDogs = weightDogsNoNaN?.sort((a,b)=>{
+            var dogWeightA =[]
+            var dogWeightB =[]
+          
+            if(b.weight.includes("-") && a.weight.includes("-")){
+                dogWeightA = a.weight.split(" - ")
+           dogWeightA = ((Number(dogWeightA[1]) + Number(dogWeightA[0]))/2)
+                            dogWeightB  =  b.weight.split(" - ")
+           dogWeightB = ((Number(dogWeightB[1]) +Number(dogWeightB[0]))/2)
+          
+       }else if(a.weight.includes("-") && !b.weight.includes("-") &&
+       b.weight !=="NaN"){
+        dogWeightB = b.weight;
+           dogWeightA = a.weight.split(" - ")
+           dogWeightA = ((Number(dogWeightA[1]) + Number(dogWeightA[0]))/2)
+       }else if(b.weight.includes("-") && !a.weight.includes("-")
+       && a.weight !=="NaN"){
+        dogWeightA = a.weight;
+          dogWeightB  =  b.weight.split(" - ")
+           dogWeightB = ((Number(dogWeightB[1]) +Number(dogWeightB[0]))/2)
+          
+       }else if (!a.weight.includes("-") && !b.weight.includes("-") && 
+       (a.weight !=="NaN"|| b.weight !=="NaN")){
+        dogWeightB = b.weight;
+        dogWeightA = a.weight;
+       }
+      
+          return dogWeightA - dogWeightB
+          
+        })
+       
+        return weightDogs.concat(weightDogsNaN)
+    }else if (sortWeight == "peso mayor a menor"){
+        var weightDogsNaN = sorteredDogs()?.filter(e => e.weight.includes("NaN"))
+        var  weightDogsNoNaN = sorteredDogs()?.filter(e => !e.weight.includes("NaN"))
+ var  weightDogs = weightDogsNoNaN?.sort((a,b)=>{
+         var dogWeightA =[]
+         var dogWeightB =[]
+       
+         if(b.weight.includes("-") && a.weight.includes("-")){
+             dogWeightA = a.weight.split(" - ")
+        dogWeightA = ((Number(dogWeightA[1]) + Number(dogWeightA[0]))/2)
+                         dogWeightB  =  b.weight.split(" - ")
+        dogWeightB = ((Number(dogWeightB[1]) +Number(dogWeightB[0]))/2)
+       
+    }else if(a.weight.includes("-") && !b.weight.includes("-") &&
+    b.weight !=="NaN"){
+     dogWeightB = b.weight;
+        dogWeightA = a.weight.split(" - ")
+        dogWeightA = ((Number(dogWeightA[1]) + Number(dogWeightA[0]))/2)
+    }else if(b.weight.includes("-") && !a.weight.includes("-")
+    && a.weight !=="NaN"){
+     dogWeightA = a.weight;
+       dogWeightB  =  b.weight.split(" - ")
+        dogWeightB = ((Number(dogWeightB[1]) +Number(dogWeightB[0]))/2)
+       
+    }else if (!a.weight.includes("-") && !b.weight.includes("-") && 
+    (a.weight !=="NaN"|| b.weight !=="NaN")){
+     dogWeightB = b.weight;
+     dogWeightA = a.weight;
+    }
+   
+       return dogWeightA - dogWeightB
+       
+     })
+    
+     return weightDogsNaN.concat(weightDogsNoNaN).reverse()
+        }else{
+            return sorteredDogs()
+        }
+     }
 
-    const filteredDogs = () => {
+function filteredByKind(){
+    var dogsFilteredByKind = []
+    if(kindDog!=="todos" && kindDog !== undefined){
+        //setCurrent(0)
+        sorteredByWeight()?.map( dog =>{
+        if( kindDog=="reales" && dog.image){
+            dogsFilteredByKind.push(dog)
+        }else if(kindDog=="creados" && !dog.image && dog.id.length >3){
+         //await getDogsCreated()
+         dogsFilteredByKind.push(dog)
+     }
+    })
+    }else{
+    // await getDogsCreated()
+     dogsFilteredByKind = sorteredByWeight()  
+     }
+     return dogsFilteredByKind
+}
+       function filteredDogs  ()  {
         // console.log(dogCreated())
         // console.log(props?.dogs?.data)
-        
-        var dogsFilteredByKind = []
-       if(kindDog!=="todos" && kindDog !== undefined){
-        sorteredDogs()?.map( dog =>{
-           if( kindDog=="reales" && dog.image){
-               dogsFilteredByKind.push(dog)
-           }else if(kindDog=="creados" && !dog.image && dog.id.length >3){
-            dogsFilteredByKind.push(dog)
-        }
-       })
-       }else{
-        dogsFilteredByKind = sorteredDogs()  
-        }
+        // props.getDogsCreated()
+      
+       
 
 
         if(temp !== 'todos' && temp !== undefined){
            var dogFilteredByTemp= []
-            dogsFilteredByKind?.map( dog =>{
+           filteredByKind()?.map( dog =>{
                 if( dog?.temperament !== undefined && dog.temperament?.includes(temp)){
                     dogFilteredByTemp.push(dog)
                 }
@@ -225,7 +322,7 @@ export  function Dogs(props){
             console.log(dogFilteredByTemp)
             return dogFilteredByTemp?.slice(current,current +9)
         }else{
-            return dogsFilteredByKind?.slice(current,current +9)
+            return filteredByKind()?.slice(current,current +9)
         }
         
     }
@@ -233,14 +330,19 @@ export  function Dogs(props){
 
 
      const nextPage = () => {
-         setCurrent( current +9)
-         window.scrollY = 0
-         console.log()
+         if(filteredByKind().length>=current +9 ){
+
+            setCurrent( current +9)
+            window.scroll(0,0)
+           
+         }
+        
      }
      const backPage = () => {
          if(current !== 0){
-            window.scrollY = 0
+            window.scroll(0,0)
             setCurrent( current -9)
+            
          }
         
     }
@@ -261,14 +363,15 @@ export  function Dogs(props){
         console.log("↑↑set input")
         console.log(input)
         console.log("↑↑input")
-    }
-
+    } 
       const  onClickSearch = async (e) =>{
-         
+        setLoading(true)
+
             if(props?.dogs?.data.length < 2){
 
                 await props.getDogs()
-                setError("pulsa enviar otra vez para buscar");
+                setLoading(false)
+                setError("redireccionado a perros, pulsa enviar otra vez para buscar");
             }else{
                 e.preventDefault()
                 
@@ -278,23 +381,33 @@ export  function Dogs(props){
                     })
                     console.log(props?.dogs?.data)
                     console.log(dogFinded)
+                    console.log("↑ en reales")
                     if(dogFinded == undefined){
                      dogFinded = props?.dogsCreated?.data.find(dog =>{
                         return dog.name == capitalizarPrimeraLetra(input)
-                        })  
-                      
+                    })  
+                    console.log(dogFinded)
+                      console.log("↑ en creados↑")
                         console.log(props?.dogsCreated?.data)
-                        console.log(dogFinded)}
+                       }
                 if(dogFinded !== undefined){
-                   
+                    console.log(dogFinded )
+                    console.log("↑ ya definido↑")
                       console.log(capitalizarPrimeraLetra(dogFinded.name))
-                    props.getDogs(capitalizarPrimeraLetra(dogFinded.name))
-                    setError("se encontró")
+                    
+
+                          props.getDogs(capitalizarPrimeraLetra(dogFinded.name)).then((e)=>{
+                            setLoading(false)
+                           
+                            setError("se encontró")
+                        })
+                  
                    
                 }else if(props?.dogs?.data.length < 2){
                     setError("recargando");
                    
                 }else{
+                    setLoading(false)
                     setError("no se ha encontrado el perro especificado"); 
                 }
 
@@ -325,12 +438,23 @@ export  function Dogs(props){
        return (()=> {
         props.getDogs()
         props.getTemperaments()
+        props.getDogsCreated()
        })
     },[])
   
+    useEffect(()=> {
+        props.getDogsCreated()
+      
+       
+        console.log(sorteredDogs())
+        return (() => {
+            props.getDogsCreated()
     
+        sorteredDogs()
+        })
+    },[kindDog])
     
-     
+     console.log(sorteredDogs())
     return (
         <BodyDiv>
                <PagesButton
@@ -340,6 +464,14 @@ export  function Dogs(props){
                        onClick={nextPage}
                        >siguiente</PagesButton>
            <Form onClick={e => e.preventDefault()}>
+               <div>
+               <h6>
+                   pagina {(9+current) / 9} de {Math.round((9+filteredByKind()?.length)/ 9)  }
+                   </h6>
+                   <h6>
+                   {current} de {filteredByKind()?.length}
+                   </h6>
+                </div>
              <div>
                 <input type="text" value={input} onChange={e => handleChange(e)}/>
                 <button onClick={e => onClickSearch(e)}>enviar</button>
@@ -377,6 +509,15 @@ export  function Dogs(props){
                     <option value="A-Z">A-Z</option>
                     <option value="Z-A">Z-A</option>
                 </select>
+                {/*ordenar por peso */}
+                <select onChange={e =>{
+                    e.preventDefault()
+                    setSortWeight(e.target.value)
+                }}>
+                    <option value="ninguno">ninguno</option>
+                    <option value="peso menor a mayor">peso menor a mayor</option>
+                    <option value="peso mayor a menor">peso mayor a menor</option>
+                </select>
               {/*ordenar por creacion, real o todos*/}
               <select onChange= {e =>{
                   e.preventDefault()
@@ -412,7 +553,12 @@ export  function Dogs(props){
                             <DogText>
                             {dog?.temperament}
                             </DogText>
-                           
+                            <DogText  style={{color:'#a0a0a0'}}>
+                                Weight 
+                                </DogText>
+                                <DogText>
+                                {dog?.weight} kg
+                                </DogText>
                            </DogTextDiv>
                    
                        </DogCard>
@@ -439,7 +585,12 @@ export  function Dogs(props){
                             <DogTextCreated>
                             {dog?.temperament}
                             </DogTextCreated>
-                           
+                            <DogTextCreated  style={{color:'#a0a0a0'}}>
+                                Weight 
+                                </DogTextCreated>
+                                <DogTextCreated>
+                                {dog?.weight} kg
+                                </DogTextCreated>
                            </DogTextDivCreated>
                    
                        </DogCardCreated>
@@ -450,13 +601,16 @@ export  function Dogs(props){
                
            })}
            </ul>
+           <DivButton>
            <PagesButton
                         onClick={backPage}>
                             anterior</PagesButton>
                        <PagesButton
                        onClick={nextPage}
                        >siguiente</PagesButton>
+                         </DivButton>
             </BodyDiv>
+          
 )
 }
 function mapStateToProps(state){
