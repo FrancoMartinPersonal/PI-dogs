@@ -77,7 +77,7 @@
   - get dogs only created menu fixed.
   - dogs sorted by weight 
   - dog searcher and dog detail title fixed 
-  
+  **commit name : features fixed and dogs sorted by weight added** 
 ## observaciones 
  ### 04/08/2021
     
