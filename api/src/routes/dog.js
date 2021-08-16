@@ -40,7 +40,7 @@ router.get('/', async(req,res,next)=>{
         Dog.findAll({
            include:Temperament
        })
-        res.json(DBres)
+        res.status(200).json(DBres)
         }
         catch(err){
             next(err)

@@ -1,24 +1,74 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const { expect } = require('chai');
+const  expect  = require('chai').expect;
 const session = require('supertest-session');
 const app = require('../../src/app.js');
-const { Dog, conn } = require('../../src/db.js');
+const { Dog ,Temperament, conn } = require('../../src/db.js');
 
 const agent = session(app);
 const dog = {
-  name: 'Pug',
+  name:'Pug',
+  height:'10 - 28',
+  weight:' 15 - 24',
+  age_span:'12',
+  id:'d3o49g-vow2e9-s281a3-17d1fG'
 };
 
-describe('Videogame routes', () => {
+
+
+describe('Dog routes', () => {
   before(() => conn.authenticate()
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   }));
+})
+
   beforeEach(() => Dog.sync({ force: true })
     .then(() => Dog.create(dog)));
-  describe('GET /dogs', () => {
+    describe('GET /temperament', () => {
+      it('should return 200', () =>
+        agent.get('/temperament').expect(200)
+       
+      )
+        it('should return temperaments', async() =>{
+        
+          const  DBTemperaments = await Temperament.findAll()
+         
+        expect(new Map(DBTemperaments[0])).to.include(name)
+        })})
+      
+        
+       
+  describe('GET /dog', () => {
     it('should get 200', () =>
-      agent.get('/dogs').expect(200)
+      agent.get('/dog').expect(200)
     );
   });
-});
+  
+  describe('POST /dog', () => {
+  it('should return error post 500', () =>
+    agent.post('/dog').send({
+    
+        name:"sabrosito",
+        weight:"12-15",
+        height:"5",
+        age_span:"5-8",
+       temperament:["1s47e5fe-eg8gEox-PlsW2Lx56","34s5dA-ñBlEq3-Fz3P6sd"]
+        
+    
+    }).expect(500)
+    
+  );
+  it('should return  post 200', () =>
+  agent.post('/dog').send({
+  
+      name:"sabrosito",
+      weight:"12-15",
+      height:"5",
+      age_span:"5-8",
+     temperament:["1s47e5fe-eg8gEox-PlsW2Lx56","34s5dA-ñBlEq3-Fz3P6sd"]
+  }).expect(200)
+  
+);
+  });
+;
+
