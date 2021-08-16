@@ -78,6 +78,9 @@
   - dogs sorted by weight 
   - dog searcher and dog detail title fixed 
   **commit name : features fixed and dogs sorted by weight added** 
+  ## 15/08/2021
+  -testing started
+  **commit name: testing started**
 ## observaciones 
  ### 04/08/2021
     
