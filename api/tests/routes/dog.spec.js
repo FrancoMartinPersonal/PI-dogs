@@ -25,22 +25,27 @@ describe('Dog routes', () => {
   beforeEach(() => Dog.sync({ force: true })
     .then(() => Dog.create(dog)));
     describe('GET /temperament', () => {
-      it('should return 200', () =>
-        agent.get('/temperament').expect(200)
+      it('should return 200',async  () =>{
+      
+        await agent.get('/temperament').expect(200)
        
-      )
+       
+         
+     
+      })
         it('should return temperaments', async() =>{
         
           const  DBTemperaments = await Temperament.findAll()
          
-        expect(new Map(DBTemperaments[0])).to.include(name)
+        expect(DBTemperaments[0]).to.have.property("name")
         })})
       
         
        
   describe('GET /dog', () => {
-    it('should get 200', () =>
-      agent.get('/dog').expect(200)
+    it('should get 200',async () =>{
+     await  agent.get('/dog').expect(200)
+      }
     );
   });
   
@@ -49,25 +54,28 @@ describe('Dog routes', () => {
     agent.post('/dog').send({
     
         name:"sabrosito",
-        weight:"12-15",
-        height:"5",
-        age_span:"5-8",
+        weight:"12 - 15",
+        height:"5 - 15",
+        age_span:"5",
        temperament:["1s47e5fe-eg8gEox-PlsW2Lx56","34s5dA-ñBlEq3-Fz3P6sd"]
         
     
     }).expect(500)
     
   );
-  it('should return  post 200', () =>
+  it('should return  post 200', async () =>{
+    const  DBTemperaments = await Temperament.findAll()
+   
   agent.post('/dog').send({
   
       name:"sabrosito",
-      weight:"12-15",
-      height:"5",
-      age_span:"5-8",
-     temperament:["1s47e5fe-eg8gEox-PlsW2Lx56","34s5dA-ñBlEq3-Fz3P6sd"]
+      weight:"12 - 15",
+      height:"5 - 15",
+      age_span:"5",
+     temperament:[DBTemperaments[0],DBTemperaments[1]]
   }).expect(200)
   
+}
 );
   });
 ;
