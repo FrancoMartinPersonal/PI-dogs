@@ -37,6 +37,55 @@ background-color: #0003;
 /* background:linear-gradient(71deg, #47209755  0%, #87208755 50%, #47209755 100%); */
 
 `
+const SendForm = styled.form `
+width:40vh;
+margin:auto;
+background: #ea35;
+padding: 50px;
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+border-radius: 5px;
+`
+const DivInfo = styled.div`
+margin: 20px 10px;
+`
+const DivForm = styled.div `
+display: flex;
+flex-direction: column;
+align-items: center;
+
+justify-content: center;
+
+`
+const MaxMinDiv = styled.div`
+display:flex;
+justify-content: space-evenly;
+flex-direction: row;
+padding: 10px ;
+`
+const InputForm = styled.input`
+border-style:none;
+background: #eee;
+border-bottom: 1px solid black;
+font-family: Georgia, 'Times New Roman', Times, serif;
+padding: 5px;
+margin:0 15px;
+outline: none;
+
+`
+const LabelForm = styled.label`
+font-family: 'roboto';
+font-size: 0.7em;
+padding: 5px;
+font-size: ${state => state.fontSize};
+`
+const PErrorForm = styled.p `
+font-family: 'roboto';
+width: max-content;
+font-size: 0.5em;
+text-align: center;
+color:#b22;
+padding: 5px ;
+`
 var tempsId =[]
 export function validate(input){
     let errores ={};
@@ -256,74 +305,103 @@ años de vida: no puede tener menos que 0 ni mas que 100
                 crees que puedes crear un perro genial?, ¡enseñanos!
             </h6>
             </TextDiv>
-            <form onSubmit={sendDog}>
-                 <div>
-                 <label htmlFor="nombre">nombre</label>
-                 <input 
+            <SendForm onSubmit={sendDog}>
+                <DivInfo>
+                 <DivForm>
+                 <LabelForm htmlFor="nombre">nombre</LabelForm>
+                 <InputForm 
                  type="text"
                   id="nombre"
                    name="nombre"
                    onChange={onInputChange}
                     value={input.nombre}/>
                     {error?.nombre&& 
-                    (<p>{error?.nombre}</p>)}
-               </div>
-               <div>
-                 <label htmlFor="alturaMin">altura Mínima</label>
-                 <input 
+                    (<PErrorForm>{error?.nombre}</PErrorForm>)}
+               </DivForm>
+                  </DivInfo>
+               <DivInfo>
+               <p style={{fontFamily:'roboto',fontSize:'.8em'}}>altura</p>
+               <MaxMinDiv>
+               <DivForm>
+                 <LabelForm fontSize="0.5em" htmlFor="alturaMin">Mínima</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
                  type="number"
                   id="alturaMin"
                    name="alturaMin"
                    onChange={onInputChange}
                     value={input.alturaMin}/>
-                    {error?.alturaMin&& 
-                    (<p>{error?.alturaMin}</p>)}
-               </div>
-               <div>
-                 <label htmlFor="alturaMax">altura Máxima</label>
-                 <input 
+                   
+               </DivForm>
+               <DivForm>
+                 <LabelForm fontSize="0.5em" htmlFor="alturaMax">Máxima</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
                  type="number"
                   id="alturaMax"
                    name="alturaMax"
                    onChange={onInputChange}
                     value={input.alturaMax}/>
-                    {error?.alturaMax&& 
-                    (<p>{error?.alturaMax}</p>)}
-               </div>
-               <div>
-                 <label htmlFor="pesoMin">peso Mínimo</label>
-                 <input 
+                   
+               </DivForm>
+              
+               </MaxMinDiv>
+               {error?.alturaMin&& 
+                    (<PErrorForm>- { error?.alturaMin}</PErrorForm>)}
+                     {error?.alturaMax&& 
+                    (<PErrorForm>- {error?.alturaMax}</PErrorForm>)}
+                    </DivInfo>
+                     <DivInfo>
+               <p style={{fontFamily:'roboto',fontSize:'.8em'}}>peso</p>
+               <MaxMinDiv>
+                 
+               <DivForm>
+                 <LabelForm fontSize="0.5em" htmlFor="pesoMin"> Mínimo</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
                  type="number"
                   id="pesoMin"
                    name="pesoMin"
                    onChange={onInputChange}
                     value={input.pesoMin}/>
-                    {error?.pesoMin&& 
-                    (<p>{error?.pesoMin}</p>)}
-               </div>
-               <div>
-                 <label htmlFor="pesoMax">peso Máximo</label>
-                 <input 
+                   
+               </DivForm>
+                        
+               <DivForm>
+                 <LabelForm fontSize="0.5em" htmlFor="PErrorFormesoMax"> Máximo</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
                  type="number"
                   id="pesoMax"
                    name="pesoMax"
                    onChange={onInputChange}
                     value={input.pesoMax}/>
-                    {error?.pesoMax&& 
-                    (<p>{error?.pesoMax}</p>)}
-               </div>
-               <div>
-                 <label htmlFor="anios">años de vida</label>
-                 <input 
+               </DivForm>
+               </MaxMinDiv>
+                    {error?.pesoMin&& 
+                    (<PErrorForm>- {error?.pesoMin}</PErrorForm>)}
+                         {error?.pesoMax&& 
+               (<PErrorForm>- {error?.pesoMax}</PErrorForm>)}
+               </DivInfo>
+
+
+               <DivInfo>
+               <DivForm>
+                 <LabelForm htmlFor="anios">años de vida</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
                  type="number"
                   id="anios"
                    name="anios"
                    onChange={onInputChange}
                     value={input.anios}/>
-                       {error?.anios&& 
-                    (<p>{error?.anios}</p>)}
-               </div>
-               <div>
+               </DivForm>
+                
+                  {error?.anios&& 
+               (<PErrorForm>- {error?.anios}</PErrorForm>)}
+               </DivInfo>
+               <DivInfo>
+               <DivForm>
                <select style={{fontFamily:'roboto'}} onChange ={  e =>
                { 
                    handleTemps(e)
@@ -344,21 +422,23 @@ años de vida: no puede tener menos que 0 ni mas que 100
                                
                         )})}
                 </select>
-                                <div>
+                                <DivForm>
                        {temps&&temps.map(temp => {
                            return(
-                                 <div key={temp.key} style={{border:'1px solid black'}}>
+                                 <DivForm key={temp.key} style={{border:'1px solid black'}}>
                                <h6>{temp.temp}</h6>
                                <p onClick={(e) => handleDeleteTemp(e)}id={temp.key} style={{cursor:'pointer'}}>x</p>
-                               </div>
+                               </DivForm>
                            )
                        })}
-                        </div>
-               </div>
+                        </DivForm>
+               </DivForm>
+                        </DivInfo>
+               
          <button type="submit"
          
          >enviar</button>               
-        </form>
+        </SendForm>
                        <SendMessage></SendMessage>
         </BodyDiv>
 
