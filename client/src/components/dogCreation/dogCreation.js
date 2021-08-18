@@ -2,6 +2,7 @@ import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getTemperaments,postDogCreated } from "../../actions/actions"
+import DogImg from '../../img/dog-bulding.jpg'
 import DogDetails from "../dogDetails/DogDetails"
 const BodyDiv = styled.div `
 font-size: 2rem;
@@ -37,14 +38,46 @@ background-color: #0003;
 /* background:linear-gradient(71deg, #47209755  0%, #87208755 50%, #47209755 100%); */
 
 `
-const SendForm = styled.form `
-width:40vh;
+const CardDiv = styled.div `
+width:max-content;
+
+display:flex;
+flex-wrap: wrap;
+background: #2fbbd5;
+max-height: 850px;
+
 margin:auto;
-background: #ea35;
-padding: 50px;
-box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-border-radius: 5px;
+border-radius: 10px;
+
 `
+const DogImage = styled.div `
+background-image: url(${DogImg});
+width:550px;
+height: 850px;
+background-position:center;
+background-size:cover;
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+border-radius: 10px;
+`
+
+const SendForm = styled.form `
+max-width:550px;
+margin:auto;
+
+height: 850px;
+background:rgba(213,153,47,1);
+padding: 50px;
+
+border-radius: 5px;
+display: flex;
+flex-direction: row;
+flex-wrap:wrap;
+justify-content: center;
+transition:flex-wrap 1s;
+
+
+`
+
 const DivInfo = styled.div`
 margin: 20px 10px;
 `
@@ -64,12 +97,21 @@ padding: 10px ;
 `
 const InputForm = styled.input`
 border-style:none;
-background: #eee;
-border-bottom: 1px solid black;
+background: #444;
+color: white;
+border-bottom:4px solid white;
 font-family: Georgia, 'Times New Roman', Times, serif;
 padding: 5px;
 margin:0 15px;
 outline: none;
+transition-property:all;
+border-radius:10px;
+transition-duration: .25s;
+
+
+&:focus {
+    border-bottom:4px solid #626; 
+}
 
 `
 const LabelForm = styled.label`
@@ -78,12 +120,36 @@ font-size: 0.7em;
 padding: 5px;
 font-size: ${state => state.fontSize};
 `
+const ButtonSend = styled.button `
+margin: 10px 20px;
+padding:15px 20px;
+color:white;
+background: #35095a;
+border-style: none;
+border:3px solid white;
+cursor:pointer;
+
+`
+const DivStyleTemp = styled.div `
+
+width:270px;
+margin: 20px;
+border: 6px solid white;
+display:flex ;
+flex-direction: row;
+text-align: center;
+height: 2em;
+
+border-radius: 10px;
+justify-content: space-around;
+background: wheat;
+`
 const PErrorForm = styled.p `
 font-family: 'roboto';
 width: max-content;
 font-size: 0.5em;
 text-align: center;
-color:#b22;
+color:#911;
 padding: 5px ;
 `
 var tempsId =[]
@@ -172,20 +238,26 @@ años de vida: no puede tener menos que 0 ni mas que 100
     const handleTemps=(e)=>{
         e.preventDefault()
         console.log(temps)
+        if(temps.length==8){
+                         console.log("no puedes meter mas de 8 temps")
+                     }else{
 
-        props.temps?.data?.forEach(temp =>{
-
-                     if(e.target.value.includes(temp.name) && temps.find(element => element.temp ==e.target.value ) == undefined){
-                       
-                         
-                         setTemps((prevState)=>{
-                             return [ ...prevState,{
-                             temp:e.target.value,
-                             key:temp.id
-                            }
-                       ]})
+                         props.temps?.data?.forEach(temp =>{
+                 
+                                      if(e.target.value.includes(temp.name) &&
+                                       temps.find(element => element.temp ==e.target.value ) == undefined
+                                       && temps.length<=8){
+                                        
+                                          
+                                          setTemps((prevState)=>{
+                                              return [ ...prevState,{
+                                              temp:e.target.value,
+                                              key:temp.id
+                                             }
+                                        ]})
+                                      }
+                                  })
                      }
-                 })
              
     }
     const handleDeleteTemp=(e)=>{
@@ -293,6 +365,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
     console.log()
     return(
         <BodyDiv>
+           
             <TextDiv>
             <h2 style={{color:'#5a5'}}>bienvenido a</h2>
             <DivImagotipo>
@@ -305,6 +378,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
                 crees que puedes crear un perro genial?, ¡enseñanos!
             </h6>
             </TextDiv>
+            <CardDiv>
             <SendForm onSubmit={sendDog}>
                 <DivInfo>
                  <DivForm>
@@ -318,7 +392,23 @@ años de vida: no puede tener menos que 0 ni mas que 100
                     {error?.nombre&& 
                     (<PErrorForm>{error?.nombre}</PErrorForm>)}
                </DivForm>
+               
                   </DivInfo>
+                  <DivInfo>
+               <DivForm>
+                 <LabelForm htmlFor="anios">años de vida</LabelForm>
+                 <InputForm 
+                 inputWidth='5em'
+                 type="number"
+                  id="anios"
+                   name="anios"
+                   onChange={onInputChange}
+                    value={input.anios}/>
+               </DivForm>
+                
+                  {error?.anios&& 
+               (<PErrorForm>- {error?.anios}</PErrorForm>)}
+               </DivInfo>
                <DivInfo>
                <p style={{fontFamily:'roboto',fontSize:'.8em'}}>altura</p>
                <MaxMinDiv>
@@ -385,21 +475,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
                </DivInfo>
 
 
-               <DivInfo>
-               <DivForm>
-                 <LabelForm htmlFor="anios">años de vida</LabelForm>
-                 <InputForm 
-                 inputWidth='5em'
-                 type="number"
-                  id="anios"
-                   name="anios"
-                   onChange={onInputChange}
-                    value={input.anios}/>
-               </DivForm>
-                
-                  {error?.anios&& 
-               (<PErrorForm>- {error?.anios}</PErrorForm>)}
-               </DivInfo>
+               
                <DivInfo>
                <DivForm>
                <select style={{fontFamily:'roboto'}} onChange ={  e =>
@@ -422,24 +498,36 @@ años de vida: no puede tener menos que 0 ni mas que 100
                                
                         )})}
                 </select>
-                                <DivForm>
+                <ButtonSend type="submit"
+         
+         >enviar</ButtonSend>            
+               </DivForm>
+                        </DivInfo>
+               
+        
+              
+                       <SendMessage></SendMessage>
+        </SendForm>
+        <DogImage></DogImage>    
+                       <DivForm>
                        {temps&&temps.map(temp => {
                            return(
-                                 <DivForm key={temp.key} style={{border:'1px solid black'}}>
+                                 <DivForm key={temp.key} >
+                                     <DivStyleTemp>
+
                                <h6>{temp.temp}</h6>
-                               <p onClick={(e) => handleDeleteTemp(e)}id={temp.key} style={{cursor:'pointer'}}>x</p>
+                               <p onClick={(e) => handleDeleteTemp(e)}id={temp.key}
+                                style={{cursor:'pointer',
+                                        width: 'min-content',
+                                        fontFamily: 'roboto',
+                                            }}
+                                                    >x</p>
+                                     </DivStyleTemp>
                                </DivForm>
                            )
                        })}
                         </DivForm>
-               </DivForm>
-                        </DivInfo>
-               
-         <button type="submit"
-         
-         >enviar</button>               
-        </SendForm>
-                       <SendMessage></SendMessage>
+                       </CardDiv>
         </BodyDiv>
 
 
