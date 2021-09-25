@@ -3,13 +3,14 @@ const axios = require('axios')
 const router = express.Router()
 const { Temperament,Dog } = require('../db');
 const { uuid } = require('uuidv4');
-
+require('dotenv').config();
+const   {API_KEY} = process.env;
 var id = 0
 router.get('/' ,async (req,res,next)=>{
     try{
     var allTemperaments = [];
     var noRepeatedTemps = []
-    var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
+    var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
     dogsDataRes = dogsDataRes.data
     dogsData = dogsDataRes.map(e =>{
         return e.temperament

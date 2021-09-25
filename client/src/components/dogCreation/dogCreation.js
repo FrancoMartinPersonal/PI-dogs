@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { getTemperaments,postDogCreated } from "../../actions/actions"
@@ -7,11 +7,12 @@ import DogDetails from "../dogDetails/DogDetails"
 const BodyDiv = styled.div `
 font-size: 2rem;
 letter-spacing: 1px;
-height:100%;
-width: 100%;
+
 margin-top: 80px;
 position: absolute;
-background: radial-gradient(circle, rgba(101,31,98,0.2518662464985995) 0%, rgba(135,128,19,0.2526505602240896) 100%);
+/* ${({ theme }) => css`
+    background: ${theme.colour.background};
+  `} */
 `
 const TextDiv = styled.div `
 margin: 10px 100px;
@@ -170,7 +171,7 @@ export function validate(input){
     }else if(input.alturaMin.length >6 ||input.alturaMin <0  ){
         errores.alturaMin = 'altura mínima no puede ser menor a 0 o medir mas de 6 dígitos'
     }
-    else if(input.alturaMax <  input.alturaMin ){
+    else if(input.alturaMax <  input.alturaMin || input.alturaMax.length <  input.alturaMin.length ){
         errores.alturaMin = 'altura mínima no puede ser mayor a altura máxima'
     }else if(!/^([0-9])*$/.test(input.alturaMin)){
         errores.alturaMin = 'el input DEBE ser un número'
@@ -181,7 +182,7 @@ export function validate(input){
     }else if(input.alturaMax.length >6 ||input.alturaMax <0  ){
         errores.alturaMax = 'altura máxima no puede ser menor a 0 o medir mas de 6 dígitos'
     }
-    else if(input.alturaMax <  input.alturaMin ){
+    else if(input.alturaMax <  input.alturaMin ||  input.alturaMax.length <  input.alturaMin.length ){
         errores.alturaMax = 'altura máxima no puede ser menor a altura minima'
     }else if(!/^([0-9])*$/.test(input.alturaMax)){
         errores.alturaMax = 'el input DEBE ser un número'
@@ -193,7 +194,7 @@ export function validate(input){
     }else if(input.pesoMin.length >6 ||input.pesoMin <0  ){
         errores.pesoMin = 'peso mínimo no puede ser menor a 0 o pesar mas de 6 dígitos'
     }
-    else if(input.pesoMax <  input.pesoMin ){
+    else if(input.pesoMax <  input.pesoMin || input.pesoMax.length <  input.pesoMin.length){
         errores.pesoMin = 'peso mínimo no puede ser mayor a peso máximo'
     }else if(!/^([0-9])*$/.test(input.pesoMin)){
         errores.pesoMin = 'el input DEBE ser un número'
@@ -204,7 +205,7 @@ export function validate(input){
     }else if(input.pesoMax.length >6 ||input.pesoMax <0  ){
         errores.pesoMax = 'peso máximo no puede ser menor a 0 o pesar mas de 6 dígitos'
     }
-    else if(input.pesoMax <  input.pesoMin ){
+    else if(input.pesoMax <  input.pesoMin || input.pesoMax.length <  input.pesoMin.length ){
         errores.pesoMax = 'peso máximo no puede ser menor a peso minimo'
     }else if(!/^([0-9])*$/.test(input.pesoMax)){
         errores.pesoMax = 'el input DEBE ser un número'
@@ -228,7 +229,15 @@ altura/peso minima y máxima: -no puede tener mas altura minima que máxima
                         
 años de vida: no puede tener menos que 0 ni mas que 100
                 */ 
-    const [input,setInput] = useState({})
+    const [input,setInput] = useState({
+        nombre:"",
+        alturaMin:"",
+        alturaMax:"",
+        pesoMin:"",
+        pesoMax:"",
+        anios:""
+
+    })
     const [temps,setTemps] = useState([])
     const [error,setError] = useState([])
     const [dogSended,setDogSended] = useState({
@@ -300,12 +309,20 @@ años de vida: no puede tener menos que 0 ni mas que 100
     const SendMessage = () =>{
         if(dogSended.success){
             return (
-                <div><p>se ha creado el perro con éxito!</p></div>
+                <div><p style={{
+                    color:'green',
+                    fontFamily:'roboto'
+                }}
+                >se ha creado el perro con éxito!</p></div>
                 )
 
         }else if (dogSended.fail){
             return(
-                <div><p>no se ha podido crear el perro, error en el formulario</p></div>
+                <div><p style={{
+                    color:'red',
+                    fontFamily:'roboto'
+                }}
+                >no se ha podido crear el perro, error en el formulario</p></div>
             )
             
         }else{
@@ -340,7 +357,15 @@ años de vida: no puede tener menos que 0 ni mas que 100
         props.postDogCreated(sendDog)
             console.log(props.dogsCreated)
             setTemps([])
-          setInput({})
+          setInput({
+            nombre:"",
+            alturaMin:"",
+            alturaMax:"",
+            pesoMin:"",
+            pesoMax:"",
+            anios:""
+    
+          })
          setDogSended({
              fail:false,
              success:true

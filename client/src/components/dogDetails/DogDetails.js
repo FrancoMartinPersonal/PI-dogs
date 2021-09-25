@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {connect} from 'react-redux'
 import { Loading } from "../loading";
 import { Link } from "react-router-dom";
@@ -10,7 +10,9 @@ height:100%;
 width: 100%;
 margin-top: 80px;
 position: absolute;
-background: radial-gradient(circle, rgba(101,31,98,0.2518662464985995) 0%, rgba(135,128,19,0.2526505602240896) 100%);
+/* ${({ theme }) => css`
+    background: ${theme.colour.background};
+  `} */
 `
 const DogCard = styled.div `
 
@@ -50,7 +52,7 @@ background-repeat: no-repeat;
 width:220px;
 height: 170px;
 border: 4px solid white;
-border-radius: 40px;
+border-radius: 10px;
 margin: 35px 15px;
 `
 export  function DogDetails(params){
@@ -61,7 +63,7 @@ export  function DogDetails(params){
      useEffect(()=>{
        
         window.scroll(0,0)
-        params.getDogDetails(params.id).then(()=>{
+        params?.getDogDetails(params.id).then(()=>{
        
             setLoading(false)
         })

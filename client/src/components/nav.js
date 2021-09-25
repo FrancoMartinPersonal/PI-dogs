@@ -1,6 +1,7 @@
-import styled from "styled-components";
+
+import styled, { css } from 'styled-components';
 import  imgLogo from '../img/dog.png'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 const MainNav = styled.div `
 width: 100%;
 height: 80px;
@@ -12,6 +13,13 @@ position:fixed;
 z-index:2000;
 /* border-bottom:1px solid #872087; */
 `
+const Text = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colour.primary};
+    font-family: ${theme.font.family};
+    font-size: ${theme.font.size.medium};
+  `}
+`;
 const DivImagotipo = styled.div `
 width: 350px;
 height: 80px;
@@ -22,9 +30,10 @@ justify-content: center;
 cursor: pointer;
 `
 const TitleLogo = styled.h1 `
-
+/* align-self: center; */
+/* margin-top:10px; */
 margin-left: 10px;
-font-size: 3.2em;
+font-size: 3em;
 color:#fbe400;
 text-shadow:5px 5px 5px black;
 letter-spacing: 3px;
@@ -50,17 +59,36 @@ margin-right: 4%;
 `
 const BarH3 = styled.h3 `
 color: white;
-margin-top: 15px;
+
+    margin-top: 12px;
 margin-left: 15px;
 padding: 10px;
 
 
 &:hover{
-    background: linear-gradient(0deg, #35095a 44%, rgba(0,233,238,0.44861694677871145)50%, #35095a 55%);
+  
     color:yellow
 }
 &:active{
-    background: linear-gradient(0deg, #35095a 44%, rgba(0,233,238,0.44861694677871145)50%, #35095a 55%);
+   
+    color:rgba(255,100,157,1);
+}
+`
+const NavLinks = styled(NavLink) `
+color: white;
+font-size: 1.5em;
+text-decoration:none;
+    margin-top: 12px;
+margin-left: 15px;
+padding: 10px;
+
+
+&:hover{
+  
+    color:yellow
+}
+&:active{
+   
     color:rgba(255,100,157,1);
 }
 `
@@ -75,31 +103,43 @@ export default function Nav (){
                     <TitleLogo>
                         Dogs
                     </TitleLogo>
-                    <TitleLogo style={{transform:'rotate(16.25deg)',marginTop:'6px'}}>
+                    <TitleLogo style={{transform:'rotate(16.25deg)',}}>
                         !
                     </TitleLogo>
             </DivImagotipo>
             </Link>     
             
             <NavBar>
-            <Link to="/dogs"  style={{ textDecoration: 'none' }}>   
-                <BarH3>
+            <NavLinks to="/dogs" activeClassName="selected"
+                    activeStyle={{
+                    fontWeight: "bold",
+                        color:"rgba(255,100,157,1)",
+                        textDecoration:"none"
+                        }}
+            >   
+               
                     get dogs
-                </BarH3>
-                </Link>
-                <Link to="/dog"  style={{ textDecoration: 'none' }}>   
-                <BarH3>
+               
+                </NavLinks>
+                <NavLinks to="/dog" activeClassName="selected"
+                        activeStyle={{
+                    fontWeight: "bold",
+                        color:"rgba(255,100,157,1)",
+                        textDecoration:"none"
+                        }}
+                    >   
+               
                     create dog
-                </BarH3>
-                </Link>
-                <Link to="/contact"  style={{ textDecoration: 'none' }}>   
+               
+                </NavLinks>
+                {/* <Link to="/contact"  style={{ textDecoration: 'none' }}>   
                 <BarH3>
                     contact
                 </BarH3>
-                </Link>
+                </Link> */}
             </NavBar>
             
-                
+               
         </MainNav>
     )
 }

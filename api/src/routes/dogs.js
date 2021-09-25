@@ -2,6 +2,8 @@ const express = require('express')
 const axios = require('axios')
 const router = express.Router()
 const {Dog} = require('../db');
+require('dotenv').config();
+const   {API_KEY} = process.env;
 
 
 router.get('/', async(req,res,next)=> {
@@ -10,7 +12,7 @@ router.get('/', async(req,res,next)=> {
         try{
             console.log(req.query.name)
             console.log("↑↑↑req.query.name")
-            var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
+            var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
             dogsDataRes = dogsDataRes.data
             var  dogsFindAll = await axios.get('http://localhost:3001/dog')
               dogsFindAll = dogsFindAll.data
@@ -66,7 +68,7 @@ router.get('/', async(req,res,next)=> {
  }        
 }else{
     try {
-        var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
+        var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
         dogsDataRes = dogsDataRes.data
         var  dogsFindAll = await axios.get('http://localhost:3001/dog')
               dogsFindAll = dogsFindAll.data
@@ -111,7 +113,7 @@ router.get('/:idRaza', async(req,res,next)=> {
      var idRaza = req.params.idRaza
      console.log(idRaza)
      console.log("↑↑↑ idRaza")
-     var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds')
+     var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
      dogsDataRes = dogsDataRes.data
    var  dogsFindAll = await axios.get('http://localhost:3001/dog')
    dogsFindAll = dogsFindAll.data

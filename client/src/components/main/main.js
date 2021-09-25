@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import React, { useEffect } from "react";
 import mainWallImg from '../../img/dogs-wall-main.jpg'
 import dogsOne from '../../img/dogs-1.jpg'
@@ -30,11 +30,14 @@ z-index: 1500;
 `
 const LegendH2 = styled.h2 `
 font-size: 3em;
-color: #000;
+
+${({ theme }) => css`
+    color: ${theme.colour.secondary.dark};
+  `}
 margin:auto;
 padding: 10px;
 z-index: 150;
-text-shadow:5px 5px 15px #fff5;
+
 
 
 `
@@ -50,7 +53,7 @@ color: wheat;
 `
 const LegendH4 = styled.h4 `
 
-font-size: 1.5em;
+font-size: 2em;
 color: #fff;
 margin:auto;
 padding: 75px 10px;
@@ -62,7 +65,7 @@ z-index: 150;
 const DogInfoText = styled.div `
 
 width: 100%;
-background: radial-gradient(circle, rgba(101,31,98,0.1518662464985995) 0%, rgba(135,128,19,0.1526505602240896) 100%);
+/* background: radial-gradient(circle, rgba(101,31,98,0.1518662464985995) 0%, rgba(135,128,19,0.1526505602240896) 100%); */
 height: max-content;
 `
 const DogIntoTextH2 = styled.h2 `
@@ -159,7 +162,7 @@ return (<>
                 <LegendH4>
                      aquí encontrarás datos interesantes sobre todos los perros, ¡asi también como
                      la capacidad de  
-                      <LinkStyleH4 to="/dogs"> CREAR UNO!</LinkStyleH4>
+                      <LinkStyleH4 to="/dog"> CREAR UNO!</LinkStyleH4>
                 </LegendH4>
             </TitleDiv>
        

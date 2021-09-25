@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set HOST =192.168.42.71 && nodemon -L",
     "test": "mocha -w ./tests/**/*.spec.js",
-      "heroku-postbuild": " npm install && npm run build"
+      "heroku-postbuild": "cd client && npm install && npm install --onlydev --no-shrinkwrap && npm run build"
    
   },
   "author": "Henry",
