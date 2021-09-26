@@ -32,7 +32,7 @@ const LegendH2 = styled.h2 `
 font-size: 3em;
 
 ${({ theme }) => css`
-    color: ${theme.colour.secondary.dark};
+    color: ${theme.colour.secondary.main};
   `}
 margin:auto;
 padding: 10px;

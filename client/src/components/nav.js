@@ -31,11 +31,13 @@ cursor: pointer;
 `
 const TitleLogo = styled.h1 `
 /* align-self: center; */
-/* margin-top:10px; */
+margin-top:5px;
 margin-left: 10px;
 font-size: 3em;
-color:#fbe400;
-text-shadow:5px 5px 5px black;
+${({ theme }) => css`
+    color: ${theme.colour.secondary.main};
+  `}
+text-shadow:2px 2px 2px black;
 letter-spacing: 3px;
  &:hover{
     color:#fbfb00;
@@ -101,10 +103,10 @@ export default function Nav (){
             <DivImg/>
 
                     <TitleLogo>
-                        Dogs
+                        Dogx
                     </TitleLogo>
                     <TitleLogo style={{transform:'rotate(16.25deg)',}}>
-                        !
+                        
                     </TitleLogo>
             </DivImagotipo>
             </Link>     

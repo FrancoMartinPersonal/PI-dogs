@@ -19,15 +19,19 @@ margin: 10px 100px;
 color:#222;
 `
 const TitleLogo = styled.h1 `
-
+/* align-self: center; */
+margin-top:0px;
 margin-left: 10px;
 font-size: 1em;
-color:#fbe400;
-text-shadow:5px 5px 5px black;
-letter-spacing: 2px;
-
-
-`
+${({ theme }) => css`
+    color: ${theme.colour.secondary.main};
+  `}
+text-shadow:2px 2px 2px black;
+letter-spacing: 3px;
+ &:hover{
+    color:#fbfb00;
+ }
+ `
 const DivImagotipo = styled.div `
 
 margin-left: 4%;
@@ -395,8 +399,8 @@ años de vida: no puede tener menos que 0 ni mas que 100
             <h2 style={{color:'#5a5'}}>bienvenido a</h2>
             <DivImagotipo>
             <h4>el creador de perros de</h4>
-                 <TitleLogo>Dogs </TitleLogo>
-            <TitleLogo style={{transform:'rotate(16.25deg)',marginTop:'6px'}}>! </TitleLogo>
+                 <TitleLogo>Dogx </TitleLogo>
+            
             </DivImagotipo>
             <h6 style={{fontFamily:'-apple-system',margin:'50px 10px'}}>
                 aquí podrás crear la cantidad de perros que desees, como también su caracter y peso, ¿

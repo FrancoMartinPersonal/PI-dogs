@@ -8,9 +8,9 @@ const theme = {
       dark:"#261435",
     },
     secondary:{
-      light:"#cec678",
-      main:"#fbe400",
-      dark:"#ad9f04",
+      light:"#e2ac6e",
+      main:"#c58319",
+      dark:"#8b4e14",
     },
     background:"#dde",
     //background: 'radial-gradient(circle, rgba(101,31,98,0.2518662464985995) 0%, rgba(135,128,19,0.2526505602240896) 100%)',

@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { getDogs, getTemperaments, getDogsCreated } from "../../actions/actions";
 import dogImg from "../../img/perro-silueta.jpg"
 import styled, { css } from "styled-components";
+import noDogs from '../../img/no-dog.svg'
 const BodyDiv = styled.div`
 height:fit-content;
 width: 100%;
-margin-top: 80px;
+margin-top: 90px;
 position: absolute;
 /* ${({ theme }) => css`
     background: ${theme.colour.background};
@@ -87,14 +88,16 @@ margin-bottom:0;
 `
 const Settings = styled.div`
 display:flex;
+flex-direction: column;
 height: min-content;
-justify-content: space-around;
+justify-content: center;
 align-content: center;
 flex-wrap: wrap;
 `
 const SelectsDiv = styled.div`
 display:flex;
-@media (max-width: 650px) {
+@media (max-width: 950px) {
+ 
    flex-direction: column;
   }
 `
@@ -113,32 +116,37 @@ ${({ theme }) => css`
 `
 const Select = styled.select`
 color:white;
+text-align: center;
 align-self: center;
-
+min-width: 223px;
 ${({ theme }) => css`
-    background: ${theme.colour.secondary.dark};
+    background: ${theme.colour.secondary.light};
   `} 
-border-radius: 4px;
+
 padding:5px;
 height: fit-content;
 font-size: 1.3em;
 margin:5px 5px;
-
+outline: none;
 cursor:pointer;
-border:3px solid white;
+border:none;
+border-top:4px solid white;
 `
 const Form = styled.form`
-margin:  10px;
+margin-top:  10px;
 flex-wrap: wrap;
 display: flex;
 flex-direction: row;
 justify-content: center;
-align-items: center;
+align-self: center;
 
 
 `
 const SpanError = styled.span`
-font-family: 'Robot', 'Times New Roman', Times, serif;
+margin:5px;
+text-align: center;
+text-justify:distribute;
+align-self: center;
 `
 const DogsUl = styled.ul`
 display:flex;
@@ -229,6 +237,14 @@ color:white;
 `
 const InputSend = styled.input`
 padding:5px;
+width:15em;
+background:#0002;
+outline:none;
+border:none;
+${({ theme }) => css`
+    border-bottom:2px solid ${theme.colour.primary.dark};
+  `} 
+
 `
 var dogFinded = []
 export function Dogs(props) {
@@ -480,21 +496,15 @@ export function Dogs(props) {
             dogFinded = props?.dogs?.data.find(dog => {
                 return dog.name == capitalizarPrimeraLetra(input)
             })
-            console.log(props?.dogs?.data)
-            console.log(dogFinded)
-            console.log("↑ en reales")
+            
             if (dogFinded == undefined) {
                 dogFinded = props?.dogsCreated?.data.find(dog => {
                     return dog.name == capitalizarPrimeraLetra(input)
                 })
-                console.log(dogFinded)
-                console.log("↑ en creados↑")
-                console.log(props?.dogsCreated?.data)
+              
             }
             if (dogFinded !== undefined) {
-                console.log(dogFinded)
-                console.log("↑ ya definido↑")
-                console.log(capitalizarPrimeraLetra(dogFinded.name))
+                
 
 
                 props.getDogs(capitalizarPrimeraLetra(dogFinded.name)).then((e) => {
@@ -542,6 +552,7 @@ export function Dogs(props) {
 
         })
 
+       
         props.getTemperaments()
 
         return (() => {
@@ -555,7 +566,6 @@ export function Dogs(props) {
         props.getDogsCreated()
 
 
-        console.log(sorteredDogs())
         return (() => {
             props.getDogsCreated()
 
@@ -563,7 +573,7 @@ export function Dogs(props) {
         })
     }, [kindDog])
 
-
+    console.log(filteredDogs(), "filtered dogs log")
     return (
         <BodyDiv>
 
@@ -573,7 +583,7 @@ export function Dogs(props) {
                 <Form onClick={e => e.preventDefault()}>
 
                     <div>
-                        <InputSend type="text" value={input} onChange={e => handleChange(e)} />
+                        <InputSend type="text" value={input} placeholder="buscar perro" onChange={e => handleChange(e)} />
                         <PagesButton paddingSend=" 5px 10px" onClick={e => onClickSearch(e)}>enviar</PagesButton>
                     </div>
                     <SpanError
@@ -603,7 +613,7 @@ export function Dogs(props) {
                             onChange={e => {
 
                                 e.preventDefault()
-                                console.log(e.target.value)
+                              
                                 setTemp(e.target.value)
                             }}>
 
@@ -631,7 +641,7 @@ export function Dogs(props) {
                             onChange={e => {
 
                                 e.preventDefault()
-                                console.log(e.target.value)
+                              
                                 setKindDog(e.target.value)
 
                             }}>
@@ -646,7 +656,7 @@ export function Dogs(props) {
                         <Select name="order by"
                             onChange={e => {
                                 e.preventDefault()
-                                console.log(e.target.value)
+                                
                                 setSort(e.target.value)
                             }}>
                             <option value="A-Z">A-Z</option>
@@ -659,9 +669,11 @@ export function Dogs(props) {
             </Settings>
 
             {loading && <Loading />}
-            <DogsUl>
-
+            {filteredDogs().length>0?
+            <>
+            <DogsUl>                
                 {filteredDogs()?.map(dog => {
+                   
                     if (dog.image) {
                         return (
                             <Link to={`/dogs/${dog?.id}`} key={dog?.id} style={{ textDecoration: 'none' }}>
@@ -728,9 +740,17 @@ export function Dogs(props) {
                         )
 
                     }
+                    
 
                 })}
             </DogsUl>
+            </>:
+            <>
+            <img src={noDogs}></img>
+            <h1>there's no dogs!</h1>
+            </>
+            }
+            
             <div style={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -747,7 +767,7 @@ export function Dogs(props) {
                                 onClick={e => {
                                     e.preventDefault()
                                     var number = num - 1
-                                    console.log(number)
+                                    
 
                                     setCurrent(number * 12)
                                 }}>
@@ -761,7 +781,7 @@ export function Dogs(props) {
                                 onClick={e => {
                                     e.preventDefault()
                                     var number = num - 1
-                                    console.log(number)
+                                   
 
                                     setCurrent(number * 12)
                                 }}>
