@@ -25,8 +25,8 @@ flex-wrap: wrap;
 width:700px;
 //height: fit-content;
 height:300px;
-border: 5px solid white;
-border-radius: 2%;
+border: 3px solid white;
+border-radius: 1%;
 margin: 25px 25px;
 flex-direction: row;
 @media (max-width: 768px) {
@@ -34,8 +34,11 @@ flex-direction: row;
      width:300px;
     height:600px; 
   }
-background: rgb(139,15,78);
-background: linear-gradient(332deg, rgba(139,15,78,1) 0%, rgba(168,58,58,1) 48%, rgba(139,15,78,1) 100%);
+
+ ${({ theme }) => css`
+ background: linear-gradient(332deg, ${theme.colour.secondary.light} 0%, ${theme.colour.secondary.main} 48%,  ${theme.colour.secondary.light} 100%);
+   
+  `}
 cursor:pointer;
 &:hover{
     background: rgba(160,29,98,1);
@@ -75,9 +78,13 @@ margin: 10px 20px;
 padding:5px 10px;
 padding: ${state => state.paddingSend};
 color:white;
-background: #35095a;
+${({ theme }) => css`
+
+    background-color: ${theme.colour.primary.main};
+    
+  `}
 border-style: none;
-border:3px solid white;
+border:2px solid white;
 cursor:pointer;
 
 `
@@ -164,8 +171,8 @@ flex-wrap: wrap;
 width:700px;
 //height: fit-content;
 height:300px;
-border: 5px solid white;
-border-radius: 2%;
+border: 3px solid white;
+border-radius: 1%;
 margin: 25px 25px;
 flex-direction: row;
 @media (max-width: 768px) {
@@ -175,11 +182,11 @@ flex-direction: row;
   }
 
 background: rgb(129,122,16);
-background: linear-gradient(332deg, rgba(129,122,16,1) 0%, rgba(173,153,17,1) 48%, rgba(129,122,16,1) 100%);
+background: linear-gradient(332deg, rgba(213,183,47,1) 0%, rgba(150,145,33,1)48%,  rgba(213,183,47,1)100%);
 cursor:pointer;
 &:hover{
-    background: rgb(129,122,16);
-background: linear-gradient(332deg, rgba(150,145,33,1) 0%, rgba(213,183,47,1) 48%,  rgba(150,145,33,1)100%);
+    
+    background: linear-gradient(332deg, rgba(160,29,98,1) 0%, rgba(188,68,78,1) 48%, rgba(160,29,98,1) 100%);
 }
 `
 const DogTextDivCreated = styled.div`
@@ -203,7 +210,7 @@ background-origin:border-box;
 background-repeat: no-repeat;
 width:220px;
 height: 170px;
-border: 4px solid white;
+border: 1px solid white;
 border-radius: 40px;
 margin: 10px 15px;
 `
@@ -669,7 +676,7 @@ export function Dogs(props) {
             </Settings>
 
             {loading && <Loading />}
-            {filteredDogs().length>0?
+            {filteredDogs()?.length>0?
             <>
             <DogsUl>                
                 {filteredDogs()?.map(dog => {
@@ -747,7 +754,7 @@ export function Dogs(props) {
             </>:
             <>
             <img src={noDogs}></img>
-            <h1>there's no dogs!</h1>
+            
             </>
             }
             

@@ -3,14 +3,14 @@ import { ThemeProvider } from 'styled-components';
 const theme = {
   colour: {
     primary:{
-      light:"#8869a1b5",
-      main:"#35095a",
-      dark:"#261435",
+      light:"#b7e3f6",
+      main:"#6FC1E3",
+      dark:"#2C7796",
     },
     secondary:{
       light:"#e2ac6e",
       main:"#c58319",
-      dark:"#8b4e14",
+      dark:"#c76a14",
     },
     background:"#dde",
     //background: 'radial-gradient(circle, rgba(101,31,98,0.2518662464985995) 0%, rgba(135,128,19,0.2526505602240896) 100%)',
