@@ -77,7 +77,7 @@ export  function DogDetails(params){
     useEffect(()=>{
        
         var dog =   params?.dogDetail?.data?.find( e => e)
-            document.title = "Dogs! - "+dog?.name
+            document.title = "Foodox! - "+dog?.name
        
    return(()=>{
      

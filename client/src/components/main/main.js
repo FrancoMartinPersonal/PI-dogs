@@ -67,6 +67,7 @@ const DogInfoText = styled.div `
 width: 100%;
 /* background: radial-gradient(circle, rgba(101,31,98,0.1518662464985995) 0%, rgba(135,128,19,0.1526505602240896) 100%); */
 height: max-content;
+
 `
 const DogIntoTextH2 = styled.h2 `
 font-size: 3em;
@@ -103,6 +104,9 @@ margin: auto;
 
 background: rgb(139,15,78);
 background: linear-gradient(332deg, rgba(139,15,78,1) 0%, rgba(168,58,58,1) 48%, rgba(139,15,78,1) 100%);
+@media (max-width: 768px) {
+   flex-direction: column;
+  }
 `
 const DogOne = styled.div `
 
@@ -134,9 +138,13 @@ background-origin:border-box;
 background-repeat: no-repeat;
 width:220px;
 height: 170px;
-border: 7px solid white;
+border: 2px solid white;
 border-radius: 40px;
 margin: 10px 15px;
+@media (max-width: 768px) {
+    width:180px;
+height: 280px;
+  }
 `
 
 const DogThree = styled.div `

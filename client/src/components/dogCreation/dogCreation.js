@@ -7,39 +7,57 @@ import DogDetails from "../dogDetails/DogDetails"
 const BodyDiv = styled.div `
 font-size: 2rem;
 letter-spacing: 1px;
+margin-top: -10px;
+top:80px;
+color:#222;
+position: relative;
 
-margin-top: 80px;
-position: absolute;
 /* ${({ theme }) => css`
     background: ${theme.colour.background};
   `} */
+
 `
 const TextDiv = styled.div `
 margin: 10px 100px;
 color:#222;
+@media (max-width: 450px) {
+    margin: 10px;
+   
+  }
 `
 const TitleLogo = styled.h1 `
 /* align-self: center; */
-margin-top:0px;
-margin-left: 10px;
+
+//margin-left: 10px;
 font-size: 1em;
+padding:0 10px;
 ${({ theme }) => css`
     color: ${theme.colour.secondary.main};
   `}
-text-shadow:2px 2px 2px black;
+//text-shadow:2px 2px 2px black;
+
 letter-spacing: 3px;
  &:hover{
     color:#fbfb00;
  }
+ 
  `
 const DivImagotipo = styled.div `
+
 
 margin-left: 4%;
 display:flex;
 width: 100%;
+ 
 flex-direction: row;
+
 justify-content: center;
-background-color: #0003;
+@media (max-width: 450px) {
+    flex-direction: column;
+   
+  }
+
+//background-color: #0001;
 /* background:linear-gradient(71deg, #47209755  0%, #87208755 50%, #47209755 100%); */
 
 `
@@ -49,11 +67,18 @@ width:max-content;
 display:flex;
 flex-wrap: wrap;
 background: #2fbbd5;
-max-height: 850px;
+
 
 margin:auto;
 border-radius: 10px;
-
+@media (max-width: 1500px) {
+    flex-direction: column;
+    max-height: fit-content;
+  }
+  @media (max-width: 450px) {
+    flex-direction: column;
+    max-width: 360px;
+  }
 `
 const DogImage = styled.div `
 background-image: url(${DogImg});
@@ -63,24 +88,34 @@ background-position:center;
 background-size:cover;
 box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 border-radius: 10px;
+@media (max-width: 450px) {
+    flex-direction: column;
+    width: 360px;
+    max-height: 550px;
+  }
 `
 
 const SendForm = styled.form `
 max-width:550px;
 margin:auto;
 
-height: 850px;
-background:rgba(213,153,47,1);
-padding: 50px;
 
-border-radius: 5px;
+background:rgba(213,153,47,1);
+
+//padding: 10px;
+border-bottom:5px solid white;
+border-top:5px solid white;
+
 display: flex;
 flex-direction: row;
 flex-wrap:wrap;
 justify-content: center;
 transition:flex-wrap 1s;
 
-
+@media (max-width: 450px) {
+    flex-direction: column;
+    max-width: 360px;
+  }
 `
 
 const DivInfo = styled.div`
@@ -99,6 +134,11 @@ display:flex;
 justify-content: space-evenly;
 flex-direction: row;
 padding: 10px ;
+@media (max-width: 450px) {
+    flex-direction: column;
+   
+  }
+
 `
 const InputForm = styled.input`
 border-style:none;
@@ -114,10 +154,29 @@ border-radius:10px;
 transition-duration: .25s;
 
 
+
 &:focus {
     border-bottom:4px solid #626; 
 }
 
+`
+const Select = styled.select`
+color:white;
+text-align: center;
+align-self: center;
+min-width: 100px;
+${({ theme }) => css`
+    background: ${theme.colour.secondary.light};
+  `} 
+
+padding:5px;
+height: fit-content;
+font-size: .5em;
+margin:5px 5px;
+outline: none;
+cursor:pointer;
+border:none;
+border-top:4px solid white;
 `
 const LabelForm = styled.label`
 font-family: 'roboto';
@@ -127,26 +186,29 @@ font-size: ${state => state.fontSize};
 `
 const ButtonSend = styled.button `
 margin: 10px 20px;
-padding:15px 20px;
+padding:5px 10px;
 color:white;
-background: #35095a;
+${({ theme }) => css`
+    background: ${theme.colour.primary.main};
+  `}
 border-style: none;
-border:3px solid white;
+//border:3px solid white;
 cursor:pointer;
 
 `
 const DivStyleTemp = styled.div `
 
-width:270px;
+width:200px;
 margin: 20px;
 border: 6px solid white;
 display:flex ;
+padding:0 30px;
 flex-direction: row;
 text-align: center;
 height: 2em;
-
+align-items: center;
 border-radius: 10px;
-justify-content: space-around;
+justify-content: space-between;
 background: wheat;
 `
 const PErrorForm = styled.p `
@@ -315,7 +377,8 @@ años de vida: no puede tener menos que 0 ni mas que 100
             return (
                 <div><p style={{
                     color:'green',
-                    fontFamily:'roboto'
+                    fontFamily:'roboto',
+                    padding:"0 10px"
                 }}
                 >se ha creado el perro con éxito!</p></div>
                 )
@@ -323,8 +386,9 @@ años de vida: no puede tener menos que 0 ni mas que 100
         }else if (dogSended.fail){
             return(
                 <div><p style={{
-                    color:'red',
-                    fontFamily:'roboto'
+                    color:'#a00',
+                    fontFamily:'roboto',
+                    padding:"0 10px"
                 }}
                 >no se ha podido crear el perro, error en el formulario</p></div>
             )
@@ -339,7 +403,14 @@ años de vida: no puede tener menos que 0 ni mas que 100
     e.preventDefault()
     setInput({
         nombre:capitalizarPrimeraLetra(input.nombre)})
-    if(Object.keys(error).length === 0 && Object.keys(input).length !== 0){
+    if(Object.keys(error).length === 0 &&
+   
+     input.nombre.length !== 0 &&
+     input.alturaMax.length !== 0 &&
+     input.alturaMin.length !== 0 &&
+     input.anios.length !== 0 &&
+     input.pesoMax.length !== 0 &&
+     input.pesoMin.length !== 0 ){
         for (let index = 0; index <= 5; index++) {//index limite sujeto a la cantidad de inputs
             e.target[index].value = ""
         }
@@ -389,17 +460,17 @@ años de vida: no puede tener menos que 0 ni mas que 100
        
         window.scroll(0,0)
         props.getTemperaments()
-        document.title = "Dogs! - creador de perros"
+        document.title = "Foodox! - creador de perros"
     },[])
-    console.log()
+    console.log(Object.keys(input).length)
     return(
         <BodyDiv>
            
             <TextDiv>
             <h2 style={{color:'#5a5'}}>bienvenido a</h2>
             <DivImagotipo>
-            <h4>el creador de perros de</h4>
-                 <TitleLogo>Dogx </TitleLogo>
+            <h4>el creador de perros de    </h4>
+                 <TitleLogo>  foodox </TitleLogo>
             
             </DivImagotipo>
             <h6 style={{fontFamily:'-apple-system',margin:'50px 10px'}}>
@@ -506,8 +577,8 @@ años de vida: no puede tener menos que 0 ni mas que 100
 
                
                <DivInfo>
-               <DivForm>
-               <select style={{fontFamily:'roboto'}} onChange ={  e =>
+               <DivForm style={{flexDirection:"row"}}>
+               <Select style={{fontFamily:'roboto'}} onChange ={  e =>
                { 
                    handleTemps(e)
                }
@@ -526,7 +597,7 @@ años de vida: no puede tener menos que 0 ni mas que 100
                               key={temp.id}   value={temp.name}>{temp.name}</option>
                                
                         )})}
-                </select>
+                </Select>
                 <ButtonSend type="submit"
          
          >enviar</ButtonSend>            

@@ -84,7 +84,7 @@ ${({ theme }) => css`
     
   `}
 border-style: none;
-border:2px solid white;
+//border:2px solid white;
 cursor:pointer;
 
 `
@@ -549,7 +549,7 @@ export function Dogs(props) {
     }
 
     useEffect(() => {
-        document.title = "Dogs! - Todos los perros"
+        document.title = "Foodox! - Todos los perros"
 
 
         props.getDogsCreated()
