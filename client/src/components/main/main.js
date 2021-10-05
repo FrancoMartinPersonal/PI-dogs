@@ -159,7 +159,7 @@ border-radius: 80px;
 function Main(){
 
     useEffect(()=>{
-        document.title = "Dogs! - bienvenido a la mejor página de perros!"
+        document.title = "Foodox - bienvenido a la mejor página de perros!"
     },[])
 return (<>
     

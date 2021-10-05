@@ -87,6 +87,9 @@ margin-right: 4%;
 `
 const BurberImg = styled.img`
 margin:0 10px;
+width: 35px;
+height: 35px;
+align-self: center;
 @media (min-width: 768px) {
     display:none;
   }
@@ -192,6 +195,17 @@ export default function Nav (){
                     create dog
                
                 </NavLinks>
+                <NavLinks to="/contact" activeClassName="selected"
+                        activeStyle={{
+                    fontWeight: "bold",
+                        color:"#858",
+                        textDecoration:"none"
+                        }}
+                    >   
+               
+                    about
+               
+                </NavLinks>
             </NavBarMobile>:
             null
            }
@@ -216,6 +230,17 @@ export default function Nav (){
                     >   
                
                     create dog
+               
+                </NavLinks>
+                <NavLinks to="/contact" activeClassName="selected"
+                        activeStyle={{
+                    fontWeight: "bold",
+                        color:"#858",
+                        textDecoration:"none"
+                        }}
+                    >   
+               
+                    about
                
                 </NavLinks>
                 {/* <Link to="/contact"  style={{ textDecoration: 'none' }}>   

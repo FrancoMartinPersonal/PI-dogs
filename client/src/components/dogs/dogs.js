@@ -192,6 +192,9 @@ cursor:pointer;
 const DogTextDivCreated = styled.div`
 margin: 10px 15px;
 width: 40%;
+@media (max-width: 768px) {
+    width: 75%;
+  }
 
 `
 
@@ -251,8 +254,15 @@ border:none;
 ${({ theme }) => css`
     border-bottom:2px solid ${theme.colour.primary.dark};
   `} 
-
 `
+const ImageNoDogs = styled.img `
+@media (max-width: 768px) {
+   
+     width:300px;
+    height:300px; 
+  }
+`
+
 var dogFinded = []
 export function Dogs(props) {
 
@@ -753,7 +763,7 @@ export function Dogs(props) {
             </DogsUl>
             </>:
             <>
-            <img src={noDogs}></img>
+            <ImageNoDogs src={noDogs}></ImageNoDogs>
             
             </>
             }
@@ -774,7 +784,7 @@ export function Dogs(props) {
                                 onClick={e => {
                                     e.preventDefault()
                                     var number = num - 1
-                                    
+                                    window.scroll(0, 0)
 
                                     setCurrent(number * 12)
                                 }}>
@@ -788,7 +798,7 @@ export function Dogs(props) {
                                 onClick={e => {
                                     e.preventDefault()
                                     var number = num - 1
-                                   
+                                    window.scroll(0, 0)
 
                                     setCurrent(number * 12)
                                 }}>
