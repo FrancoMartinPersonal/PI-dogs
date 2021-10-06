@@ -14,7 +14,7 @@ router.get('/', async(req,res,next)=> {
             console.log("↑↑↑req.query.name")
             var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
             dogsDataRes = dogsDataRes.data
-            var  dogsFindAll = await axios.get('http://localhost:3001/dog')
+            var  dogsFindAll = await axios.get('https://app-dogs-franco.herokuapp.com/dog'||'http://localhost:3001/dog')
               dogsFindAll = dogsFindAll.data
             var dogData = dogsDataRes.filter(element =>{
                 return element.name == req.query.name
@@ -70,7 +70,7 @@ router.get('/', async(req,res,next)=> {
     try {
         var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
         dogsDataRes = dogsDataRes.data
-        var  dogsFindAll = await axios.get('http://localhost:3001/dog')
+        var  dogsFindAll = await axios.get('https://app-dogs-franco.herokuapp.com/dog'||'http://localhost:3001/dog')
               dogsFindAll = dogsFindAll.data
            
             var dogData = dogsDataRes.map( data => {
@@ -115,7 +115,7 @@ router.get('/:idRaza', async(req,res,next)=> {
      console.log("↑↑↑ idRaza")
      var dogsDataRes = await axios.get('https://api.thedogapi.com/v1/breeds?api_key='+API_KEY)
      dogsDataRes = dogsDataRes.data
-   var  dogsFindAll = await axios.get('http://localhost:3001/dog')
+   var  dogsFindAll = await axios.get('https://app-dogs-franco.herokuapp.com/dog'||'http://localhost:3001/dog')
    dogsFindAll = dogsFindAll.data
 
    dogData = dogsDataRes.filter(id => {

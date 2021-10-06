@@ -7,7 +7,7 @@ export function getDogs (name){
             if(name){
               
                 var getDogsResByName
-                getDogsResByName = await axios.get('http://192.168.42.71:3001/dogs?name='+name)
+                getDogsResByName = await axios.get('https://app-dogs-franco.herokuapp.com/dogs?name='+name)
                 dispatch({
                 type:GET_DOGS,
                 payload:getDogsResByName
@@ -16,7 +16,7 @@ export function getDogs (name){
             }else{
 
                 var getDogsRes
-                getDogsRes = await axios.get('http://192.168.42.71:3001/dogs')
+                getDogsRes = await axios.get('https://app-dogs-franco.herokuapp.com/dogs')
                 dispatch({
                 type:GET_DOGS,
                 payload:getDogsRes
@@ -31,7 +31,7 @@ export function getDogs (name){
 export function getTemperaments(){
     return async function(dispatch){
         try{
-            var TempsRes = await axios.get('http://192.168.42.71:3001/temperament')
+            var TempsRes = await axios.get('https://app-dogs-franco.herokuapp.com/temperament')
             dispatch({
                 type:GET_TEMPERAMENTS,
                 payload:TempsRes
@@ -47,7 +47,7 @@ export function getTemperaments(){
 export function getDogDetails(id){
     return async function(dispatch){
         try{
-            var dogDetailRes = await axios.get('http://192.168.42.71:3001/dogs/'+id)
+            var dogDetailRes = await axios.get('https://app-dogs-franco.herokuapp.com/dogs/'+id)
             dispatch({
                 type:GET_DOGS_BY_ID,
                 payload:dogDetailRes
@@ -65,7 +65,7 @@ export function postDogCreated(json){
         try{
             var dogCreatedRes = await axios({
                 method: "post",
-                url: "http://192.168.42.71:3001/dog",
+                url: "https://app-dogs-franco.herokuapp.com/dog",
                 data: jsonPost,
                 headers: { "Content-Type": "application/json" },
               })
@@ -81,7 +81,7 @@ export function postDogCreated(json){
 export function getDogsCreated(){
     return async function(dispatch){
         try{
-            var dogCreatedRes = await axios.get("http://192.168.42.71:3001/dog")
+            var dogCreatedRes = await axios.get("https://app-dogs-franco.herokuapp.com/dog")
             dispatch({
                 type:GET_DOG_CREATED,
                 payload:dogCreatedRes
